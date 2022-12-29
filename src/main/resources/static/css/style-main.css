@@ -1,0 +1,44 @@
+.btn1 {
+    width: 300px;
+    background-color: #FF931E;
+    border: none;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 7px;
+    font-size: 15px;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.loginLink {
+    color: #FF931E;
+}
+
+.box1 {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    align-items: center; /* 수직 정렬 */
+    justify-content: center; /* 수평 정렬 */
+}
+
+.box1_child {
+    position: absolute;
+    text-align: center;
+}
+
+.box2 {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center; /* 수직 정렬 */
+    justify-content: center; /* 수평 정렬 */
+}
+
+.box2_child {
+    text-align: center;
+}
