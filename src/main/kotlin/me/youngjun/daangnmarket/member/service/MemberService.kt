@@ -29,4 +29,11 @@ class MemberService(
         return savedMember
     }
 
+    fun login(
+        form: LoginForm
+    ) {
+        // 이메일/PW 일치 여부 검사 로직
+        log.info { "Login completed : ${form.email}" }
+    }
+
 }

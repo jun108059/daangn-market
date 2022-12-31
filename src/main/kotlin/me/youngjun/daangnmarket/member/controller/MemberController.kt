@@ -28,4 +28,19 @@ class MemberController(
         return ModelAndView("/member/join-ok")
             .addObject("email", savedMember.email)
     }
+
+    @GetMapping("/login")
+    fun login(
+    ): ModelAndView {
+        return ModelAndView("/member/login")
+            .addObject("loginForm", LoginForm())
+    }
+
+    @PostMapping("/login")
+    fun login(
+        form: LoginForm
+    ): ModelAndView {
+        memberService.login(form)
+        return ModelAndView("/product/list")
+    }
 }
