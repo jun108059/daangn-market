@@ -1,44 +1,79 @@
-.btn1 {
-    width: 300px;
-    background-color: #FF931E;
-    border: none;
-    color: #fff;
-    padding: 15px 0;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    border-radius: 7px;
-    font-size: 15px;
-    margin: 4px;
-    cursor: pointer;
-}
-
-.loginLink {
-    color: #FF931E;
-}
-
-.box1 {
+.box-welcome {
     position: relative;
     width: 100%;
     height: 500px;
     display: flex;
-    align-items: center; /* 수직 정렬 */
-    justify-content: center; /* 수평 정렬 */
+    align-items: center;
+    justify-content: center;
 }
 
-.box1_child {
+.box-child {
     position: absolute;
     text-align: center;
 }
 
-.box2 {
+.box-under {
     width: 100%;
     height: 150px;
     display: flex;
-    align-items: center; /* 수직 정렬 */
-    justify-content: center; /* 수평 정렬 */
+    align-items: center;
+    justify-content: center;
 }
 
-.box2_child {
+.box-under-child {
     text-align: center;
+}
+
+.box-join {
+    position: relative;
+    width: 100%;
+    height: 475px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-main {
+    width: 300px;
+    height:40px;
+    background-color: #FF931E;
+    border: none;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 7px;
+    font-family: 'EliceDigitalBaeum-Bd', serif;
+    font-size: 18px;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.login-link {
+    color: #FF931E;
+}
+
+.find-password {
+    color: #FF931E;
+}
+
+@font-face {
+    font-family: 'EliceDigitalBaeum-Bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_elice@1.0/EliceDigitalBaeum-Bd.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'EliceDigitalBaeum-Bd', serif;
+}
+
+h4{
+    text-align: left;
+    margin:10px;
+}
+
+input {
+    width:280px;
+    height:20px;
 }
