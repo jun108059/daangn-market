@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="kr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0,
+        minimum-scale=1.0, user-scalable=yes" charset="UTF-8">
+    <link rel="stylesheet" href="/css/style-main.css"/>
+    <link rel="icon" href="/images/favicon.png">
+    <title>당근 마켓 클론코딩 첼린지</title>
+</head>
+<body>
+
+<div id="welcome" class="box-welcome">
+    <div class="box-child">
+        <h3>입력하신 [[${email}]] 으로 <br>
+            인증 메일을 전송했습니다.<br><br>
+            메일을 인증하고 <br>
+            Karrot 마켓을 시작해보세요.</h3>
+    </div>
+</div>
+
+<div class="box-under">
+    <div class="box-under-child">
+        <button class="btn-main" onclick="location.href='/login';">로그인 하러가기</button>
+    </div>
+</div>
+
+</body>
+</html>

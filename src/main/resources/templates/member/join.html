@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="kr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0,
+        minimum-scale=1.0, user-scalable=yes" charset="UTF-8">
+    <link rel="stylesheet" href="/css/style-main.css"/>
+    <link rel="icon" href="/images/favicon.png">
+    <title>당근 마켓 클론코딩 첼린지</title>
+</head>
+<body>
+
+<div class="box-join">
+    <div class="box-child">
+        <h3>회원가입</h3>
+        <form id="join" th:action="@{/join}" th:object="${member}" method="post">
+            <h4><label for="email">이메일(ID)</label></h4>
+            <input type="email" id="email" th:field="*{email}" placeholder="아이디를 입력해주세요"/>
+            <h4><label for="password">비밀번호(PW)</label></h4>
+            <input type = "password" id="password" th:field="*{password}" placeholder="패스워드를 입력해주세요"/>
+            <h4><label for="name">이름</label></h4>
+            <input type="text" id="name" th:field="*{name}" placeholder="이름을 입력해주세요"/>
+            <h4><label for="phone">핸드폰번호</label></h4>
+            <input type="text" id="phone" th:field="*{phone}" placeholder="핸드폰번호를 입력해주세요"/>
+            <h4><label for="nickname">닉네임</label></h4>
+            <input type="text" id="nickname" th:field="*{nickname}" placeholder="닉네임을 입력해주세요"/>
+            <br><br>
+        </form>
+    </div>
+</div>
+
+<div class="box-under">
+    <div class="box-under-child">
+        <input type="submit" form="join" class="btn-main" value="가입하기">
+    </div>
+</div>
+
+</body>
+</html>
