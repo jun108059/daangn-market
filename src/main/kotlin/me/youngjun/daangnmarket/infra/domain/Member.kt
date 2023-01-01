@@ -26,6 +26,6 @@ class Member(
     var nickname: String,
 
     @Column
-    var area: String,
+    var area: String? = "판교",
 
 ) : BaseEntity()
