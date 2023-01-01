@@ -28,6 +28,4 @@ class Member(
     @Column
     var area: String,
 
-    // ROLE (작성자)
-
-    ) : BaseEntity()
+) : BaseEntity()
