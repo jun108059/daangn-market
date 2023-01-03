@@ -2,6 +2,8 @@ package me.youngjun.daangnmarket.member.service
 
 import me.youngjun.daangnmarket.infra.domain.Member
 import me.youngjun.daangnmarket.infra.domain.mapping.MemberConverter
+import me.youngjun.daangnmarket.infra.exception.DuplicationMemberException
+import me.youngjun.daangnmarket.infra.exception.ErrorCode
 import me.youngjun.daangnmarket.member.dto.LoginForm
 import mu.KotlinLogging
 import me.youngjun.daangnmarket.member.dto.MemberJoinForm
@@ -23,6 +25,8 @@ class MemberService(
         form: MemberJoinForm
     ): Member {
         val converter = Mappers.getMapper(MemberConverter::class.java)
+        checkDuplicateUser(form.email)
+        // TODO password 암호화
         val member = converter.convertToEntity(form)
         val savedMember = memberRepository.save(member)
         log.info { "Join completed : ${savedMember.id}" }
@@ -32,8 +36,16 @@ class MemberService(
     fun login(
         form: LoginForm
     ) {
-        // 이메일/PW 일치 여부 검사 로직
+        // TODO 이메일/PW 일치 여부 검사 로직
         log.info { "Login completed : ${form.email}" }
     }
 
+    fun checkDuplicateUser(
+        email: String
+    ) {
+        val isExistence = memberRepository.existsByEmail(email)
+        if (isExistence) {
+            throw DuplicationMemberException(ErrorCode.DUPLICATE_USER_EMAIL)
+        }
+    }
 }

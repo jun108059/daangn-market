@@ -14,7 +14,7 @@
         <h3>회원가입</h3>
         <form id="join" th:action="@{/join}" th:object="${member}" method="post">
             <h4><label for="email">이메일(ID)</label></h4>
-            <input type="email" id="email" th:field="*{email}" placeholder="아이디를 입력해주세요"/>
+            <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요"/>
             <h4><label for="password">비밀번호(PW)</label></h4>
             <input type = "password" id="password" th:field="*{password}" placeholder="패스워드를 입력해주세요"/>
             <h4><label for="name">이름</label></h4>
