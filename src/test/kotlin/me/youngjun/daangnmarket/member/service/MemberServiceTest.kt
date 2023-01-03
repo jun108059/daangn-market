@@ -49,6 +49,10 @@ internal class MemberServiceTest {
             memberRepository.save(any())
         } returns savedMember
 
+        every {
+            memberRepository.existsByEmail(any())
+        } returns false
+
         // when
         val result = target.join(memberJoinForm)
 
