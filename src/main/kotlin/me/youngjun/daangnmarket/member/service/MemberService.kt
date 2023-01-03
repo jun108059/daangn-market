@@ -26,6 +26,7 @@ class MemberService(
     ): Member {
         val converter = Mappers.getMapper(MemberConverter::class.java)
         checkDuplicateUser(form.email)
+        // TODO password 암호화
         val member = converter.convertToEntity(form)
         val savedMember = memberRepository.save(member)
         log.info { "Join completed : ${savedMember.id}" }
@@ -35,7 +36,7 @@ class MemberService(
     fun login(
         form: LoginForm
     ) {
-        // 이메일/PW 일치 여부 검사 로직
+        // TODO 이메일/PW 일치 여부 검사 로직
         log.info { "Login completed : ${form.email}" }
     }
 
