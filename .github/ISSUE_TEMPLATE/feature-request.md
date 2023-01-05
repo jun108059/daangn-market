@@ -1,5 +1,5 @@
 ---
-name: "\U0001F468\U0001F3FB\U0001F4BB Feature request"
+name: "👨🏻‍💻 Feature request"
 about: Feature 작업에 대해 작성해주세요.
 title: ''
 labels: ''
