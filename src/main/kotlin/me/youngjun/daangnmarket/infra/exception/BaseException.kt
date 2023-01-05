@@ -1,5 +1,5 @@
 package me.youngjun.daangnmarket.infra.exception
 
-class DuplicationMemberException(
+class BaseException(
     val errorCode: ErrorCode
-): IllegalStateException(errorCode.message)
+): RuntimeException()
