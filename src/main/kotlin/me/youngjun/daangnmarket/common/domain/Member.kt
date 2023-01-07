@@ -1,4 +1,4 @@
-package me.youngjun.daangnmarket.infra.domain
+package me.youngjun.daangnmarket.common.domain
 
 import javax.persistence.*
 

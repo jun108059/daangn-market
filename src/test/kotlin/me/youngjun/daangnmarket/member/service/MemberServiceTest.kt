@@ -5,10 +5,11 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
-import me.youngjun.daangnmarket.infra.domain.Member
+import me.youngjun.daangnmarket.api.member.service.MemberService
+import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.infra.exception.DuplicationMemberException
-import me.youngjun.daangnmarket.member.dto.MemberJoinForm
-import me.youngjun.daangnmarket.member.repository.MemberRepository
+import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
+import me.youngjun.daangnmarket.common.repository.MemberRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -27,7 +28,7 @@ internal class MemberServiceTest {
     @Test
     fun memberJoinTest() {
         // given
-        val memberJoinForm = MemberJoinForm(
+        val memberJoinRequestDto = MemberJoinRequestDto(
             email = "youngjun@test.com",
             password = "1234",
             name = "박영준",
@@ -54,20 +55,20 @@ internal class MemberServiceTest {
         } returns false
 
         // when
-        val result = target.join(memberJoinForm)
+        val result = target.join(memberJoinRequestDto)
 
         // then
         verify(exactly = 1) {
             memberRepository.save(any())
         }
-        assert(result.id == 1.toLong())
+        assert(result == 1.toLong())
     }
 
     @DisplayName("이메일 중복검사 테스트")
     @Test
     fun duplicateEmailTest() {
         // given
-        val memberJoinForm = MemberJoinForm(
+        val memberJoinRequestDto = MemberJoinRequestDto(
             email = "youngjun@test.com",
             password = "1234",
             name = "박영준",
@@ -96,7 +97,7 @@ internal class MemberServiceTest {
 
         // then
         assertThrows(DuplicationMemberException::class.java) {
-            target.join(memberJoinForm)
+            target.join(memberJoinRequestDto)
         }
     }
 }

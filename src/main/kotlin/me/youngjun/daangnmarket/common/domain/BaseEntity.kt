@@ -1,4 +1,4 @@
-package me.youngjun.daangnmarket.infra.domain
+package me.youngjun.daangnmarket.common.domain
 
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate

@@ -1,8 +1,8 @@
-package me.youngjun.daangnmarket.member.controller
+package me.youngjun.daangnmarket.web.member.controller
 
-import me.youngjun.daangnmarket.member.dto.LoginForm
-import me.youngjun.daangnmarket.member.dto.MemberJoinForm
-import me.youngjun.daangnmarket.member.service.MemberService
+import me.youngjun.daangnmarket.api.member.dto.LoginRequestDto
+import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
+import me.youngjun.daangnmarket.api.member.service.MemberService
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -17,28 +17,28 @@ class MemberController(
     fun joinView(
     ): ModelAndView {
         return ModelAndView("/member/join")
-            .addObject("member", MemberJoinForm())
+            .addObject("member", MemberJoinRequestDto())
     }
 
-    @PostMapping("/join")
-    fun join(
-        form: MemberJoinForm
-    ): ModelAndView {
-        val savedMember = memberService.join(form)
-        return ModelAndView("/member/join-ok")
-            .addObject("email", savedMember.email)
-    }
+//    @PostMapping("/join")
+//    fun join(
+//        form: MemberJoinRequestDto
+//    ): ModelAndView {
+//        val savedMember = memberService.join(form)
+//        return ModelAndView("/member/join-ok")
+//            .addObject("email", savedMember.email)
+//    }
 
     @GetMapping("/login")
     fun login(
     ): ModelAndView {
         return ModelAndView("/member/login")
-            .addObject("loginForm", LoginForm())
+            .addObject("loginForm", LoginRequestDto())
     }
 
     @PostMapping("/login")
     fun login(
-        form: LoginForm
+        form: LoginRequestDto
     ): ModelAndView {
         memberService.login(form)
         return ModelAndView("/product/list")

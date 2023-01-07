@@ -1,7 +1,7 @@
-package me.youngjun.daangnmarket.infra.domain
+package me.youngjun.daangnmarket.common.domain
 
-import me.youngjun.daangnmarket.infra.domain.enum.Category
-import me.youngjun.daangnmarket.infra.domain.enum.ProductStatus
+import me.youngjun.daangnmarket.common.domain.enum.Category
+import me.youngjun.daangnmarket.common.domain.enum.ProductStatus
 import javax.persistence.*
 
 @Entity

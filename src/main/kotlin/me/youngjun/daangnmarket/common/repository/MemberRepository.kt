@@ -1,6 +1,6 @@
-package me.youngjun.daangnmarket.member.repository
+package me.youngjun.daangnmarket.common.repository
 
-import me.youngjun.daangnmarket.infra.domain.Member
+import me.youngjun.daangnmarket.common.domain.Member
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface MemberRepository : JpaRepository<Member, Long> {

@@ -1,13 +1,12 @@
-package me.youngjun.daangnmarket.member.service
+package me.youngjun.daangnmarket.api.member.service
 
-import me.youngjun.daangnmarket.infra.domain.Member
-import me.youngjun.daangnmarket.infra.domain.mapping.MemberConverter
+import me.youngjun.daangnmarket.common.domain.mapping.MemberConverter
 import me.youngjun.daangnmarket.infra.exception.DuplicationMemberException
 import me.youngjun.daangnmarket.infra.exception.ErrorCode
-import me.youngjun.daangnmarket.member.dto.LoginForm
+import me.youngjun.daangnmarket.api.member.dto.LoginRequestDto
 import mu.KotlinLogging
-import me.youngjun.daangnmarket.member.dto.MemberJoinForm
-import me.youngjun.daangnmarket.member.repository.MemberRepository
+import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
+import me.youngjun.daangnmarket.common.repository.MemberRepository
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,19 +21,19 @@ class MemberService(
 
     @Transactional
     fun join(
-        form: MemberJoinForm
-    ): Member {
+        form: MemberJoinRequestDto
+    ): Long {
         val converter = Mappers.getMapper(MemberConverter::class.java)
         checkDuplicateUser(form.email)
         // TODO password 암호화
         val member = converter.convertToEntity(form)
         val savedMember = memberRepository.save(member)
         log.info { "Join completed : ${savedMember.id}" }
-        return savedMember
+        return savedMember.id ?: 0
     }
 
     fun login(
-        form: LoginForm
+        form: LoginRequestDto
     ) {
         // TODO 이메일/PW 일치 여부 검사 로직
         log.info { "Login completed : ${form.email}" }
@@ -47,5 +46,13 @@ class MemberService(
         if (isExistence) {
             throw DuplicationMemberException(ErrorCode.DUPLICATE_USER_EMAIL)
         }
+    }
+
+    fun findMemberById(
+        memberId: Long
+    ) {
+        val member = memberRepository.findById(memberId)
+            ?: throw NullPointerException("회원 정보가 없습니다 id : ${memberId}")
+
     }
 }

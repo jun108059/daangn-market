@@ -1,6 +1,6 @@
-package me.youngjun.daangnmarket.member.dto
+package me.youngjun.daangnmarket.api.member.dto
 
-data class MemberJoinForm(
+data class MemberJoinRequestDto(
     var email: String = "",
     var password: String = "",
     var name: String = "",

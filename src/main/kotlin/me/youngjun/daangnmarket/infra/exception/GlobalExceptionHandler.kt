@@ -1,6 +1,6 @@
 package me.youngjun.daangnmarket.infra.exception
 
-import me.youngjun.daangnmarket.infra.domain.dto.ApiResponse
+import me.youngjun.daangnmarket.common.domain.dto.ApiResponse
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
