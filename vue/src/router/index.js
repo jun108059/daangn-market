@@ -1,16 +1,27 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
-import Home from "@/components/Home.vue";
-// import Login from '@/components/LoginPage.vue';
-// import Join from '@/components/JoinPage.vue';
+import HomeView from "@/views/HomeView.vue";
+import LoginView from "@/views/member/LoginView.vue";
+import JoinView from "@/views/member/JoinView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    // 주소와 컴포넌트 매칭
-    { path: "/", name: "Home", component: Home },
-    // { path: "/login", name: "Login", component: Login },
-    // { path: "/join", name: "Join", component: Join },
+    {
+      path: "/",
+      name: "Home",
+      component: HomeView,
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: LoginView,
+    },
+    {
+      path: "/join",
+      name: "Join",
+      component: JoinView,
+    },
   ],
 });
 
