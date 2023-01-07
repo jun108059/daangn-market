@@ -6,5 +6,5 @@ data class MemberJoinRequestDto(
     var name: String = "",
     var phone: String = "",
     var nickname: String = "",
-    var area: String = "",
+    var area: String? = "판교",
 )
