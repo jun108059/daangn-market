@@ -1,6 +1,8 @@
 package me.youngjun.daangnmarket.api.product.service
 
+import me.youngjun.daangnmarket.api.product.dto.CategoryView
 import me.youngjun.daangnmarket.api.product.dto.ProductView
+import me.youngjun.daangnmarket.common.domain.enum.Category
 import me.youngjun.daangnmarket.common.domain.enum.ProductStatus
 import me.youngjun.daangnmarket.common.repository.ProductRepository
 import mu.KotlinLogging
@@ -40,5 +42,13 @@ class ProductService(
             imgUrl = "https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20220520_198%2F16530412329208sUlC_JPEG%2F1R3811668.jpg&type=a340"
         )
         return listOf(productViewA, productViewB)
+    }
+
+    fun getCategoryList(): List<CategoryView> {
+        val categoryViewList = mutableListOf<CategoryView>()
+        Category.values().forEach { category ->
+            categoryViewList.add(CategoryView(category.categoryCode, category.categoryName))
+        }
+        return categoryViewList
     }
 }

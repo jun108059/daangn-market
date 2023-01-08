@@ -1,5 +1,6 @@
 package me.youngjun.daangnmarket.api.product.controller
 
+import me.youngjun.daangnmarket.api.product.dto.CategoryView
 import me.youngjun.daangnmarket.api.product.dto.ProductView
 import me.youngjun.daangnmarket.api.product.service.ProductService
 import me.youngjun.daangnmarket.common.domain.dto.ApiResponse
@@ -21,4 +22,9 @@ class ProductApiController(
         return ApiResponse.success(productList)
     }
 
+    @GetMapping("/api/v1/category/list")
+    fun getCategoryListView(): ApiResponse<List<CategoryView>> {
+        val categoryList = productService.getCategoryList()
+        return ApiResponse.success(categoryList)
+    }
 }
