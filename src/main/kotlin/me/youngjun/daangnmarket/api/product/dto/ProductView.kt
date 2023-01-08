@@ -8,6 +8,7 @@ data class ProductView(
     val title: String,
     val price: Int,
     val likeCount: Int,
+    val chatCount: Int,
     val productStatus: ProductStatus,
-    val thumbnail: String,
+    val imgUrl: String,
 )

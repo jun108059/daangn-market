@@ -7,4 +7,14 @@ enum class Area(
     PANGYO(1, "판교"),
     SUJI(2, "수지"),
     JAMSIL(3, "잠실");
+
+
+    companion object {
+        fun of(
+            areaId: Int
+        ): Area? = values().firstOrNull() {
+            it.areaId == areaId
+        }
+    }
+
 }

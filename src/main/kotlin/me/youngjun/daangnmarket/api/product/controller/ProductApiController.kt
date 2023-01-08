@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class ProductController(
+class ProductApiController(
     private val productService: ProductService,
 ) {
 
-    @GetMapping("/product/list")
-    fun productListView(
-        @RequestParam(value = "area_id") areaId: Int,
+    @GetMapping("/api/v1/product/list")
+    fun getProductList(
+        @RequestParam(value = "status", defaultValue = "1") areaId: Int? = 0,
     ): ApiResponse<List<ProductView>> {
         // TODO 스프링 시큐리티 ID 받아오기
         val productList = productService.getProductList(areaId)

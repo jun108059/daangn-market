@@ -15,27 +15,29 @@ class ProductService(
     }
 
     fun getProductList(
-        areaId: Int
+        areaId: Int?
     ): List<ProductView> {
         // TODO productRepository.findByArea(areaId)
         val productViewA = ProductView(
             id = 1,
             areaName = "판교",
-            title = "a",
+            title = "당근 인형 팔아요",
             price = 100,
             likeCount = 20,
+            chatCount = 10,
             productStatus = ProductStatus.TRADING,
-            thumbnail = "/s3/url"
+            imgUrl = "https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20220520_198%2F16530412329208sUlC_JPEG%2F1R3811668.jpg&type=a340"
         )
 
         val productViewB = ProductView(
             id = 2,
             areaName = "판교",
-            title = "b",
+            title = "당근 인형 2배로 비싸게 팔아요",
             price = 200,
             likeCount = 15,
+            chatCount = 5,
             productStatus = ProductStatus.COMPLETED,
-            thumbnail = "/s3/abc/url"
+            imgUrl = "https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20220520_198%2F16530412329208sUlC_JPEG%2F1R3811668.jpg&type=a340"
         )
         return listOf(productViewA, productViewB)
     }
