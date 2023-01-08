@@ -1,5 +1,6 @@
 package me.youngjun.daangnmarket.api.member.controller
 
+import me.youngjun.daangnmarket.api.member.dto.LoginRequestDto
 import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
 import me.youngjun.daangnmarket.api.member.service.MemberService
 import me.youngjun.daangnmarket.common.domain.dto.ApiResponse
@@ -14,9 +15,17 @@ class MemberApiController(
 
     @PostMapping("/api/v1/member")
     fun createMember(
-        @RequestBody form: MemberJoinRequestDto,
+        @RequestBody memberJoinForm: MemberJoinRequestDto,
     ): ApiResponse<Nothing> {
-        memberService.join(form)
+        memberService.join(memberJoinForm)
+        return ApiResponse.success()
+    }
+
+    @PostMapping("/api/v1/login")
+    fun login(
+        @RequestBody loginForm: LoginRequestDto,
+    ): ApiResponse<Nothing> {
+        memberService.login(loginForm)
         return ApiResponse.success()
     }
 //
@@ -27,11 +36,5 @@ class MemberApiController(
 //        memberService.findMemberById(id)
 //    }
 //
-//    @PostMapping("/api/v1/login")
-//    fun login(
-//        @RequestParam("loginForm") form: LoginRequestDto,
-//    ): ApiResponse<Nothing> {
-//        memberService.login(form)
-//        return
-//    }
+
 }

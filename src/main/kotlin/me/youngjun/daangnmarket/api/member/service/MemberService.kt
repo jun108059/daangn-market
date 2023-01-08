@@ -1,12 +1,12 @@
 package me.youngjun.daangnmarket.api.member.service
 
+import me.youngjun.daangnmarket.api.member.dto.LoginRequestDto
+import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
 import me.youngjun.daangnmarket.common.domain.mapping.MemberConverter
+import me.youngjun.daangnmarket.common.repository.MemberRepository
 import me.youngjun.daangnmarket.infra.exception.DuplicationMemberException
 import me.youngjun.daangnmarket.infra.exception.ErrorCode
-import me.youngjun.daangnmarket.api.member.dto.LoginRequestDto
 import mu.KotlinLogging
-import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
-import me.youngjun.daangnmarket.common.repository.MemberRepository
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -33,10 +33,11 @@ class MemberService(
     }
 
     fun login(
-        form: LoginRequestDto
+        dto: LoginRequestDto
     ) {
-        // TODO 이메일/PW 일치 여부 검사 로직
-        log.info { "Login completed : ${form.email}" }
+        memberRepository.findByEmailAndPassword(dto.email, dto.password)
+        log.info { "Login completed : ${dto.email}" }
+        // TODO 토큰 기반으로 변경
     }
 
     fun checkDuplicateUser(
@@ -48,11 +49,11 @@ class MemberService(
         }
     }
 
-    fun findMemberById(
-        memberId: Long
-    ) {
-        val member = memberRepository.findById(memberId)
-            ?: throw NullPointerException("회원 정보가 없습니다 id : ${memberId}")
-
-    }
+//    fun findMemberById(
+//        memberId: Long
+//    ) {
+//        val member = memberRepository.findById(memberId)
+//            ?: throw NullPointerException("회원 정보가 없습니다 id : ${memberId}")
+//
+//    }
 }
