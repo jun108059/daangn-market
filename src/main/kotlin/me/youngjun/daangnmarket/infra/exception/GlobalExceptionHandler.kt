@@ -18,4 +18,15 @@ class GlobalExceptionHandler {
         )
     }
 
+    @ExceptionHandler(NotFoundMemberException::class)
+    protected fun handleNotFoundMemberException(
+        e: NotFoundMemberException
+    ): ApiResponse<Nothing> {
+        return ApiResponse(
+            status = e.errorCode.status,
+            message = e.errorCode.message,
+            null
+        )
+    }
+
 }

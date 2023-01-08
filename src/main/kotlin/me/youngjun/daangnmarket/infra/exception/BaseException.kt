@@ -1,5 +1,5 @@
 package me.youngjun.daangnmarket.infra.exception
 
-class BaseException(
-    val errorCode: ErrorCode
-): RuntimeException()
+open class BaseException(
+    open val errorCode: ErrorCode
+) : RuntimeException()
