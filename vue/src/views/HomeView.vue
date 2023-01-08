@@ -19,21 +19,7 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: "HomeView",
-    metaInfo: {
-      meta: [
-        {
-          name: "viewport",
-          charset: "UTF-8",
-          content:
-            "width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, user-scalable=yes",
-        },
-      ],
-    },
-  };
-</script>
+<script></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
