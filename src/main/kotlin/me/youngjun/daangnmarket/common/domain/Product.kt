@@ -1,5 +1,6 @@
 package me.youngjun.daangnmarket.common.domain
 
+import me.youngjun.daangnmarket.common.domain.enum.Area
 import me.youngjun.daangnmarket.common.domain.enum.Category
 import me.youngjun.daangnmarket.common.domain.enum.ProductStatus
 import javax.persistence.*
@@ -32,5 +33,9 @@ class Product(
     @Column
     @Enumerated(EnumType.STRING)
     var status: ProductStatus? = ProductStatus.TRADING,
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    var area: Area? = Area.PANGYO,
 
     ) : BaseEntity()
