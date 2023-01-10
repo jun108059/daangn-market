@@ -14,11 +14,9 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <!--          https://dev.to/saimo/how-to-upload-multiple-images-with-preview-using-laravel-and-vue-282j-->
-          <!--          <upload-media-->
-          <!--            server="/api/upload"-->
-          <!--            error="@error('media'){{$message}}@enderror">-->
-          <!--          </upload-media>-->
+          <ImageUploader server="/api/v1/image">
+            <!--            error="@error('media'){{$message}}@enderror">-->
+          </ImageUploader>
           <!--          <update-media-->
           <!--            server="/api/upload"-->
           <!--            media-file-path="/storage/post_images"-->
@@ -57,6 +55,7 @@
 <script>
   import axios from "axios";
   import { onMounted, reactive } from "vue";
+  import ImageUploader from "@/components/ImageUploader.vue";
 
   export default {
     setup() {
@@ -109,6 +108,9 @@
         submitForm,
       };
     },
+    components: {
+      ImageUploader,
+    },
   };
 </script>
 
@@ -126,5 +128,10 @@
     right: 20px;
     width: 30%;
     height: 80px;
+  }
+
+  label.images-upload {
+    height: 90px !important;
+    width: 90px !important;
   }
 </style>
