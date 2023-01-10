@@ -4,6 +4,8 @@ import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/member/LoginView.vue";
 import JoinView from "@/views/member/JoinView.vue";
 import JoinOkView from "@/views/member/JoinOkView.vue";
+import ProductListView from "@/views/product/ProductListView.vue";
+import ProductRegisterView from "@/views/product/ProductRegisterView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,6 +29,16 @@ const router = createRouter({
       path: "/join-ok",
       name: "JoinOk",
       component: JoinOkView,
+    },
+    {
+      path: "/product/list",
+      name: "ProductList",
+      component: ProductListView,
+    },
+    {
+      path: "/product/register",
+      name: "ProductRegister",
+      component: ProductRegisterView,
     },
   ],
 });
