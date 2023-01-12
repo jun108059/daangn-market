@@ -2,18 +2,27 @@ package me.youngjun.daangnmarket.api.member.service
 
 import me.youngjun.daangnmarket.api.member.dto.LoginRequestDto
 import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
+import me.youngjun.daangnmarket.common.domain.enum.Role
 import me.youngjun.daangnmarket.common.domain.mapping.MemberConverter
 import me.youngjun.daangnmarket.common.repository.MemberRepository
 import me.youngjun.daangnmarket.infra.exception.DuplicationMemberException
 import me.youngjun.daangnmarket.infra.exception.ErrorCode
+import me.youngjun.daangnmarket.infra.jwt.JwtTokenProvider
+import me.youngjun.daangnmarket.infra.jwt.TokenDto
 import mu.KotlinLogging
 import org.mapstruct.factory.Mappers
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MemberService(
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
+    private val authenticationManager: AuthenticationManager,
+    private val jwtTokenProvider: JwtTokenProvider,
+    private val passwordEncoder: BCryptPasswordEncoder
 ) {
     companion object {
         private val log = KotlinLogging.logger {}
@@ -23,21 +32,30 @@ class MemberService(
     fun join(
         form: MemberJoinRequestDto
     ): Long {
+        form.password = passwordEncoder.encode(form.password)
         val converter = Mappers.getMapper(MemberConverter::class.java)
-        checkDuplicateUser(form.email)
-        // TODO password 암호화
         val member = converter.convertToEntity(form)
+        // 이메일 중복 검사
+        checkDuplicateUser(form.email)
+        member.role = Role.ROLE_USER
+
         val savedMember = memberRepository.save(member)
         log.info { "Join completed : ${savedMember.id}" }
         return savedMember.id ?: 0
     }
 
-    fun login(
+    @Transactional(readOnly = true)
+    fun loginByEmail(
         dto: LoginRequestDto
-    ) {
-        memberRepository.findByEmailAndPassword(dto.email, dto.password)
-        log.info { "Login completed : ${dto.email}" }
-        // TODO 토큰 기반으로 변경
+    ): TokenDto {
+        // email, password 기반 AuthenticationToken 생성
+        val authenticationToken = UsernamePasswordAuthenticationToken(dto.email, dto.password)
+        println("authenticationToken = $authenticationToken")
+        // 검증 (사용자 비밀버호 체크) - 내부에서 UserDetailsServiceImpl.loadUserByUsername 호출
+        val authenticate = authenticationManager.authenticate(authenticationToken)
+        println("authenticate = $authenticate")
+        // 인증 정보 기반 JWT 토큰 생성
+        return jwtTokenProvider.generateTokenDto(authenticate)
     }
 
     fun checkDuplicateUser(
@@ -49,11 +67,4 @@ class MemberService(
         }
     }
 
-//    fun findMemberById(
-//        memberId: Long
-//    ) {
-//        val member = memberRepository.findById(memberId)
-//            ?: throw NullPointerException("회원 정보가 없습니다 id : ${memberId}")
-//
-//    }
 }
