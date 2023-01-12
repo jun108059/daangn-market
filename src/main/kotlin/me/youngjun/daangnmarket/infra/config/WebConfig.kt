@@ -25,7 +25,7 @@ class WebConfig : WebMvcConfigurer {
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
         config.allowCredentials = true
-        config.addAllowedOrigin("*") // e.g. http://domain1.com
+        config.addAllowedOriginPattern("*") // e.g. http://domain1.com
         config.addAllowedHeader("*")
         config.addAllowedMethod("*")
         source.registerCorsConfiguration("/api/**", config)
