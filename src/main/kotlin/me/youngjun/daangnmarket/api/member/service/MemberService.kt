@@ -32,11 +32,12 @@ class MemberService(
     fun join(
         form: MemberJoinRequestDto
     ): Long {
-        form.password = passwordEncoder.encode(form.password)
         val converter = Mappers.getMapper(MemberConverter::class.java)
         val member = converter.convertToEntity(form)
         // 이메일 중복 검사
         checkDuplicateUser(form.email)
+        // 비밀번호 암호화
+        member.bcryptPassword(passwordEncoder.encode(form.password))
         member.role = Role.ROLE_USER
 
         val savedMember = memberRepository.save(member)

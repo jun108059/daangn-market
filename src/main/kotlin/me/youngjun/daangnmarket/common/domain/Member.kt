@@ -1,5 +1,6 @@
 package me.youngjun.daangnmarket.common.domain
 
+import me.youngjun.daangnmarket.common.domain.enum.Role
 import javax.persistence.*
 
 @Entity
@@ -8,7 +9,7 @@ class Member(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    val id: Long? = 0,
 
     @Column
     var email: String,
@@ -28,4 +29,14 @@ class Member(
     @Column
     var area: String? = "판교",
 
-) : BaseEntity()
+    @Column
+    @Enumerated(EnumType.STRING)
+    var role: Role? = Role.ROLE_USER,
+
+) : BaseEntity() {
+
+    fun bcryptPassword(encode: String) {
+        this.password = encode
+    }
+
+}
