@@ -31,6 +31,8 @@ dependencies {
     kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
     kaptTest("org.mapstruct:mapstruct-processor:1.5.3.Final")
     implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
