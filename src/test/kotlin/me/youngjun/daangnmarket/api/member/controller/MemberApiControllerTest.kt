@@ -50,7 +50,7 @@ class MemberApiControllerTest {
         val loginDtoJson = objectMapper.writeValueAsString(loginDto)
         val tokenDto = TokenDto(
             grantType = "Bearer",
-            accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3MzU1NzUwNH0.QfBodmcqpn1WxnRBFj0dOuT9LsBOA2k-xU-fzUQi-ndmQhz9ZJO6NaUuEG3Ic3waP10YUxnvYdCx6Da0fttKiA",
+            accessToken = "test123token",
             accessTokenExpiresIn = 1673557504848
         )
 

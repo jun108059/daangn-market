@@ -50,7 +50,7 @@ internal class MemberServiceTest {
         val savedMember = Member(
             id = 1,
             email = "youngjun@test.com",
-            password = "\$2a\$10\$puGljPIbcul8.3/Lwo59HeTPzkL/u.cKNFTB0ntlMFufN6271ug/u",
+            password = "1234Encoding",
             name = "박영준",
             phone = "010-1234-1234",
             nickname = "개발하는만두",
@@ -67,7 +67,7 @@ internal class MemberServiceTest {
 
         every {
             passwordEncoder.encode(any())
-        } returns "\$2a\$10\$puGljPIbcul8.3/Lwo59HeTPzkL/u.cKNFTB0ntlMFufN6271ug/u"
+        } returns "1234Encoding"
 
         // when
         val result = target.join(memberJoinRequestDto)
@@ -94,7 +94,7 @@ internal class MemberServiceTest {
         val savedMember = Member(
             id = 1,
             email = "youngjun@test.com",
-            password = "\$2a\$10\$puGljPIbcul8.3/Lwo59HeTPzkL/u.cKNFTB0ntlMFufN6271ug/u",
+            password = "1234Encoding",
             name = "박영준",
             phone = "010-1234-1234",
             nickname = "개발하는만두",
