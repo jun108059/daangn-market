@@ -1,27 +1,25 @@
 package me.youngjun.daangnmarket.infra.jwt
 
-import me.youngjun.daangnmarket.common.domain.Member
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.userdetails.UserDetails
 
-class UserDetailsImpl(
-    val member: Member
+class UserDetailsImpl private constructor(
+    private val userName: String,
+    private val password: String,
 ) : UserDetails {
 
-    private var enabled: Boolean = true
+    override fun getUsername(): String = userName
+
+    override fun getPassword(): String = password
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = AuthorityUtils.createAuthorityList()
 
-    override fun getPassword(): String = member.password
+    override fun isEnabled(): Boolean = true
 
-    override fun getUsername(): String = member.email
+    override fun isCredentialsNonExpired(): Boolean = true
 
-    override fun isAccountNonExpired(): Boolean = enabled
+    override fun isAccountNonExpired(): Boolean = true
 
-    override fun isAccountNonLocked(): Boolean = enabled
-
-    override fun isCredentialsNonExpired(): Boolean = enabled
-
-    override fun isEnabled(): Boolean = enabled
+    override fun isAccountNonLocked(): Boolean = true
 }
