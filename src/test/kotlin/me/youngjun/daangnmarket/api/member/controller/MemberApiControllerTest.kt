@@ -7,7 +7,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import me.youngjun.daangnmarket.api.member.dto.LoginRequestDto
 import me.youngjun.daangnmarket.api.member.service.MemberService
-import me.youngjun.daangnmarket.infra.jwt.JwtTokenProvider
 import me.youngjun.daangnmarket.infra.jwt.TokenDto
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -26,9 +25,6 @@ class MemberApiControllerTest {
 
     @MockK
     private lateinit var memberService: MemberService
-
-    @MockK
-    private lateinit var jwtTokenProvider: JwtTokenProvider
 
     @InjectMockKs
     private lateinit var memberApiController: MemberApiController
