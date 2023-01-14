@@ -9,8 +9,10 @@ data class ProductRegisterDto(
     val category: Category,
 
     // @NotBlank(message = "가격을 입력해주세요")
-    val price: Int,
+    val price: Long,
 
     // @NotBlank(message = "게시글 내용을 입력해주세요")
     val content: String,
+    
+    val imageList: List<String>,
 )

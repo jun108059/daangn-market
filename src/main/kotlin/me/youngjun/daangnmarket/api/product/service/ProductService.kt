@@ -1,21 +1,51 @@
 package me.youngjun.daangnmarket.api.product.service
 
 import me.youngjun.daangnmarket.api.product.dto.CategoryView
+import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
 import me.youngjun.daangnmarket.api.product.dto.ProductView
 import me.youngjun.daangnmarket.common.domain.enum.Category
-import me.youngjun.daangnmarket.common.domain.enum.ProductStatus
+import me.youngjun.daangnmarket.common.repository.ImageRepository
+import me.youngjun.daangnmarket.common.repository.LikesRepository
+import me.youngjun.daangnmarket.common.repository.MemberRepository
 import me.youngjun.daangnmarket.common.repository.ProductRepository
+import me.youngjun.daangnmarket.infra.exception.ErrorCode
+import me.youngjun.daangnmarket.infra.exception.NotFoundMemberException
 import mu.KotlinLogging
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ProductService(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val memberRepository: MemberRepository,
+    private val imageRepository: ImageRepository,
+    private val likesRepository: LikesRepository,
 ) {
     companion object {
         private val log = KotlinLogging.logger {}
     }
 
+    @Transactional
+    fun register(
+        registerDto: ProductRegisterDto,
+        memberId: Long,
+    ): Product {
+        val member: Member = memberRepository.findByIdOrNull(memberId)
+            ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+        val productEntity = Product.convertToEntity(registerDto, member)
+        val savedProduct = productRepository.save(productEntity)
+
+        registerDto.imageList.forEach { image ->
+            val imageEntity = Image.convertToEntity(savedProduct, image)
+            log.info { "image : $image" }
+            imageRepository.save(imageEntity)
+        }
+
+        return savedProduct
+    }
+
+    @Transactional(readOnly = true)
     fun getProductList(
         areaId: Int?
     ): List<ProductView> {
