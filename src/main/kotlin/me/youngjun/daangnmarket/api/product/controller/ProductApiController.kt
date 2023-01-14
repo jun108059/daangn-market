@@ -1,12 +1,14 @@
 package me.youngjun.daangnmarket.api.product.controller
 
 import me.youngjun.daangnmarket.api.product.dto.CategoryView
-import me.youngjun.daangnmarket.api.product.dto.ProductView
+import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
 import me.youngjun.daangnmarket.api.product.service.ProductService
 import me.youngjun.daangnmarket.common.domain.dto.ApiResponse
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import mu.KotlinLogging
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @RestController
 class ProductApiController(
@@ -30,15 +32,16 @@ class ProductApiController(
 
     @GetMapping("/api/v1/product/list")
     fun getProductList(
-        @RequestParam(value = "status", defaultValue = "1") areaId: Int? = 0,
-    ): ApiResponse<List<ProductView>> {
-        // TODO 스프링 시큐리티 ID 받아오기
-        val productList = productService.getProductList(areaId)
-        return ApiResponse.success(productList)
+        principal: Principal,
+    ): ResponseEntity<Any> {
+        val memberId = principal.name.toLong()
+        val productList = productService.getProductList(memberId)
+        return ResponseEntity.ok(productList)
     }
 
     @GetMapping("/api/v1/category/list")
-    fun getCategoryListView(): ApiResponse<List<CategoryView>> {
+    fun getCategoryListView(
+    ): ApiResponse<List<CategoryView>> {
         val categoryList = productService.getCategoryList()
         return ApiResponse.success(categoryList)
     }
