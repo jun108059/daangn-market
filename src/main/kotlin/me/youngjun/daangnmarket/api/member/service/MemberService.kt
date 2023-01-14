@@ -2,15 +2,14 @@ package me.youngjun.daangnmarket.api.member.service
 
 import me.youngjun.daangnmarket.api.member.dto.LoginRequestDto
 import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
+import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.domain.enum.Role
-import me.youngjun.daangnmarket.common.domain.mapping.MemberConverter
 import me.youngjun.daangnmarket.common.repository.MemberRepository
 import me.youngjun.daangnmarket.infra.exception.DuplicationMemberException
 import me.youngjun.daangnmarket.infra.exception.ErrorCode
 import me.youngjun.daangnmarket.infra.jwt.JwtTokenProvider
 import me.youngjun.daangnmarket.infra.jwt.TokenDto
 import mu.KotlinLogging
-import org.mapstruct.factory.Mappers
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -32,8 +31,7 @@ class MemberService(
     fun join(
         form: MemberJoinRequestDto
     ): Long {
-        val converter = Mappers.getMapper(MemberConverter::class.java)
-        val member = converter.convertToEntity(form)
+        val member = Member.convertToEntity(form)
         // 이메일 중복 검사
         checkDuplicateUser(form.email)
         // 비밀번호 암호화

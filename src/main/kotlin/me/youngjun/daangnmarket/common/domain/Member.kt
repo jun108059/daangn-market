@@ -1,7 +1,7 @@
 package me.youngjun.daangnmarket.common.domain
 
+import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
 import me.youngjun.daangnmarket.common.domain.enum.Role
-import org.jetbrains.annotations.Nullable
 import javax.persistence.*
 
 @Entity
@@ -9,7 +9,6 @@ import javax.persistence.*
 class Member(
 
     @Id
-    @Nullable
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = 0,
 
@@ -41,4 +40,20 @@ class Member(
         this.password = encode
     }
 
+    companion object {
+        fun convertToEntity(
+            form: MemberJoinRequestDto
+        ): Member {
+            return Member(
+                id = 0,
+                email = form.email,
+                password = form.password,
+                name = form.name,
+                phone = form.phone,
+                nickname = form.nickname,
+                area = form.area,
+                role = form.role
+            )
+        }
+    }
 }
