@@ -1,6 +1,7 @@
 package me.youngjun.daangnmarket.common.domain
 
 import me.youngjun.daangnmarket.common.domain.enum.Role
+import org.jetbrains.annotations.Nullable
 import javax.persistence.*
 
 @Entity
@@ -8,6 +9,7 @@ import javax.persistence.*
 class Member(
 
     @Id
+    @Nullable
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = 0,
 
@@ -33,7 +35,7 @@ class Member(
     @Enumerated(EnumType.STRING)
     var role: Role? = Role.ROLE_USER,
 
-) : BaseEntity() {
+    ) : BaseEntity() {
 
     fun bcryptPassword(encode: String) {
         this.password = encode

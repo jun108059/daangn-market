@@ -1,5 +1,6 @@
 package me.youngjun.daangnmarket.common.domain
 
+import org.jetbrains.annotations.Nullable
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -12,8 +13,10 @@ import javax.persistence.MappedSuperclass
 abstract class BaseEntity(
 
     @CreatedDate
+    @Nullable
     var createdAt: LocalDateTime? = LocalDateTime.now(),
 
     @LastModifiedDate
+    @Nullable
     var updatedAt: LocalDateTime? = LocalDateTime.now()
 )

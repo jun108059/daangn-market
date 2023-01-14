@@ -9,5 +9,6 @@ import org.mapstruct.Mapping
 interface MemberConverter {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "id", ignore = true)
     fun convertToEntity(memberJoinRequestDto: MemberJoinRequestDto): Member
 }
