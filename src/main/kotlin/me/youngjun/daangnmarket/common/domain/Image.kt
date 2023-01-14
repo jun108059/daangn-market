@@ -12,10 +12,24 @@ class Image(
     val id: Long? = null,
 
     @Column
-    var fileName: String,
+    var filePath: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     val product: Product,
 
-    ) : BaseEntity()
+    ) : BaseEntity() {
+
+    companion object {
+        fun convertToEntity(
+            product: Product,
+            imagePath: String,
+        ): Image {
+            return Image(
+                filePath = imagePath,
+                product = product
+            )
+        }
+
+    }
+}

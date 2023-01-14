@@ -1,5 +1,7 @@
 package me.youngjun.daangnmarket.common.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
 import me.youngjun.daangnmarket.common.domain.enum.Area
 import me.youngjun.daangnmarket.common.domain.enum.Category
 import me.youngjun.daangnmarket.common.domain.enum.ProductStatus
@@ -21,9 +23,6 @@ class Product(
     var price: Long,
 
     @Column
-    var name: String,
-
-    @Column
     var content: String,
 
     @Column
@@ -38,4 +37,26 @@ class Product(
     @Enumerated(EnumType.STRING)
     var area: Area? = Area.PANGYO,
 
-    ) : BaseEntity()
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", referencedColumnName = "id")
+    var member: Member,
+
+    ) : BaseEntity() {
+    companion object {
+        fun convertToEntity(
+            productRegisterDto: ProductRegisterDto,
+            member: Member
+        ): Product {
+            return Product(
+                id = 0,
+                title = productRegisterDto.title,
+                price = productRegisterDto.price,
+                content = productRegisterDto.content,
+                category = productRegisterDto.category,
+                member = member
+            )
+        }
+
+    }
+}
