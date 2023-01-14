@@ -1,25 +1,4 @@
-server:
-  port: 8081
-
 spring:
-  application:
-    name: daangn-market
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-  datasource:
-    url: jdbc:h2:mem:test
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
-
-  profiles:
-    active: local
-
-server:
-  port: 8081
+  config:
+    additional-location:
+      config/

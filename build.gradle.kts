@@ -27,12 +27,18 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
-    implementation("org.mapstruct:mapstruct:1.5.3.Final")
-    kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
-    kaptTest("org.mapstruct:mapstruct-processor:1.5.3.Final")
     implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.14.1")
 
-    runtimeOnly("com.h2database:h2")
+    // jwt 관련 의존성
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
+    // mysql
+    runtimeOnly("mysql:mysql-connector-java:8.0.31")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.mockk:mockk:1.13.3")
 }

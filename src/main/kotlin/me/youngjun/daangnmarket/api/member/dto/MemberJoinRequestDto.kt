@@ -1,5 +1,7 @@
 package me.youngjun.daangnmarket.api.member.dto
 
+import me.youngjun.daangnmarket.common.domain.enum.Role
+
 data class MemberJoinRequestDto(
     var email: String = "",
     var password: String = "",
@@ -7,4 +9,6 @@ data class MemberJoinRequestDto(
     var phone: String = "",
     var nickname: String = "",
     var area: String? = "판교",
-)
+    var role: Role? = Role.ROLE_USER,
+
+    )
