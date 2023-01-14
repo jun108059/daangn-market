@@ -1,0 +1,61 @@
+### 상품 등록 API 1
+POST http://localhost:8081/api/v1/product
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3MzczNDgxM30.ZZDORl31YHfmh-ry8Ew8PdcisolVob4gkUnSnjwHuc_I9xq7qLfgbxJcMU5esDp6s77rcZERNPCYNccCCMTk8w
+
+{
+  "title": "한남더힐 100평 펜트하우스 매매",
+  "category": "10",
+  "price": 30000000000,
+  "content": "300억에 급매합니다 ^^",
+  "imageList": [
+    "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201708/05/b313969a-a073-4665-a721-8af77dc1df39.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5jkEhvHzwrYaHXjVrGlXpFZXgruTkZnEiqGkbg3hYVSTW9rYtZrQQhkurXgG7UkKNSO0&usqp=CAU"
+  ]
+}
+
+### 상품 등록 API 2
+POST http://localhost:8081/api/v1/product
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3MzczNDgxM30.ZZDORl31YHfmh-ry8Ew8PdcisolVob4gkUnSnjwHuc_I9xq7qLfgbxJcMU5esDp6s77rcZERNPCYNccCCMTk8w
+
+{
+  "title": "롤스로이스 팬텀 팝니다",
+  "category": "16",
+  "price": 760000000,
+  "content": "쿨거 5,000원 DC",
+  "imageList": [
+    "https://www.motoya.co.kr/news/photo/202205/35313_220048_1952.jpg",
+    "https://image-cdn.hypb.st/https%3A%2F%2Fkr.hypebeast.com%2Ffiles%2F2021%2F02%2Frolls-royce-the-koa-phantom-commission-luxury-car-image-tw.jpg?w=960&cbr=1&q=90&fit=max"
+  ]
+}
+
+### 상품 등록 API 3
+POST http://localhost:8081/api/v1/product
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3MzcxMDUzMX0.8NeD5nGMZpYa2kmbNT_WcUvnfmy_i0T30A1ygQOZqUKJfLqZJOcxfsarWX-tScV3bK_SQP-6NLzv0sYzw-i9kw
+
+{
+  "title": "당근 인형 팔아요",
+  "category": "4",
+  "price": 50000,
+  "content": "택포하면 60만원",
+  "imageList": [
+    "http://img.insight.co.kr/static/2018/09/14/700/0iv2a3d7431y91a0k74u.jpg",
+    "https://mblogthumb-phinf.pstatic.net/MjAxODEwMTVfMzMg/MDAxNTM5NTgxNjg4NjMz.2z1o0PIol0k9nsYbIv-qsyziByI5ikd3lT9HNjh_HwYg.OhTZ1HYfZvYYZu9ORTG5C4GbynDW5OtYtXhoAt_sUVwg.JPEG.jiyi94/image_8531766581539581679066.jpg?type=w800"
+  ]
+}
+
+### 상품리스트 조회
+GET http://localhost:8081/api/v1/product/list
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3MzczMjU3MH0.cS-uQUZ8naUQRPxYGLPH9tS_KLJai_nnqIwRdyb0bN-lteatbot17rbK0N7OtLWhhbu5jaKKV25k3hCKVuWvzQ
+
+
+### 로그인 API
+POST http://localhost:8081/api/v1/login
+Content-Type: application/json
+
+{
+  "email": "youngjun108059@gmail.com",
+  "password": "1234"
+}
