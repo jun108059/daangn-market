@@ -8,10 +8,6 @@ import javax.persistence.*
 @Table
 class Member(
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = 0,
-
     @Column
     var email: String,
 
@@ -28,13 +24,18 @@ class Member(
     var nickname: String,
 
     @Column
-    var area: String? = "판교",
+    var imagePath: String = "",
 
     @Column
     @Enumerated(EnumType.STRING)
     var role: Role? = Role.ROLE_USER,
 
-    ) : BaseEntity() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "area_id", referencedColumnName = "id")
+    var areaId: Area = Area.of("0001")
+
+) : BaseEntity() {
+
 
     fun bcryptPassword(encode: String) {
         this.password = encode
@@ -45,13 +46,11 @@ class Member(
             form: MemberJoinRequestDto
         ): Member {
             return Member(
-                id = 0,
                 email = form.email,
                 password = form.password,
                 name = form.name,
                 phone = form.phone,
                 nickname = form.nickname,
-                area = form.area,
                 role = form.role
             )
         }

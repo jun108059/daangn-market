@@ -6,16 +6,11 @@ import javax.persistence.*
 @Table
 class Image(
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_id")
-    val id: Long? = null,
-
     @Column
     var filePath: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     val product: Product,
 
     ) : BaseEntity() {
