@@ -34,6 +34,15 @@ class MemberApiController(
         log.info { "Login completed : [${loginForm.email}], $token" }
         return ResponseEntity(token, HttpStatus.OK)
     }
+
+    @GetMapping("/api/v1/member")
+    fun getMember(
+        principal: Principal,
+    ): ResponseEntity<Any> {
+        val memberInfo = memberService.getMemberInfo(principal.name.toLong())
+        return ResponseEntity(memberInfo, HttpStatus.OK)
+//        memberService.getMember()
+    }
 //
 //    @GetMapping("/api/v1/member")
 //    fun getMemberById(
