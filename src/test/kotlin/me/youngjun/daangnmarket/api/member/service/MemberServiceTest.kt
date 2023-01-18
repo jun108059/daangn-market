@@ -1,118 +1,100 @@
 package me.youngjun.daangnmarket.api.member.service
 
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
+import me.youngjun.daangnmarket.common.domain.Area
 import me.youngjun.daangnmarket.common.domain.Member
+import me.youngjun.daangnmarket.common.repository.AreaRepository
 import me.youngjun.daangnmarket.common.repository.MemberRepository
 import me.youngjun.daangnmarket.infra.exception.DuplicationMemberException
-import me.youngjun.daangnmarket.infra.jwt.JwtTokenProvider
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import java.util.*
 
-@ExtendWith(MockKExtension::class)
-internal class MemberServiceTest {
+internal class MemberServiceTest : BehaviorSpec({
+    val memberRepository = mockk<MemberRepository>()
+    val areaRepository = mockk<AreaRepository>()
+    val passwordEncoder = mockk<BCryptPasswordEncoder>()
+    val target = MemberService(memberRepository, areaRepository, passwordEncoder)
 
-    @InjectMockKs
-    private lateinit var target: MemberService
+    Given("회원 가입 데이터") {
+        every { areaRepository.findByIdOrNull(any()) } returns Area.of("0001")
+        every { memberRepository.existsByEmail(any()) } returns false
+        every { memberRepository.save(savedMember) } returns savedMember
+        every { passwordEncoder.encode(any()) } returns "1234Encoding"
 
-    @MockK
-    private lateinit var memberRepository: MemberRepository
+        When("회원 가입을 요청하면") {
+            withContext(Dispatchers.IO) {
+                target.join(memberJoinRequestDto)
+            }
+            Then("이메일 중복 검사를 1번 해야한다") {
+                verify(exactly = 1) {
+                    target.checkDuplicateUser(any())
+                }
+            }
+            Then("회원 정보가 저장되어야 한다") {
+                verify(exactly = 1) {
+                    memberRepository.save(any())
+                }
+            }
+        }
+        When("이미 가입된 회원이 요청하면") {
+            every { memberRepository.existsByEmail(any()) } returns true
+            Then("DuplicationMemberException 예외를 던진다") {
+                shouldThrow<DuplicationMemberException> {
+                    target.join(memberJoinRequestDto)
+                }
+            }
+        }
+    }
 
-    @MockK
-    private lateinit var authenticationManager: AuthenticationManager
+    Given("회원 조회") {
+        val memberId = 1L
+        every { memberRepository.findByIdOrNull(memberId) } returns savedMember
 
-    @MockK
-    private lateinit var jwtTokenProvider: JwtTokenProvider
+        When("회원 데이터가 존재한다면") {
+            val result = target.getMemberInfo(memberId)
+            Then("DB 에서 데이터를 조회한다") {
+                verify(exactly = 1) {
+                    memberRepository.findByIdOrNull(memberId)
+                }
+            }
+            Then("응답 데이터가 반환된다") {
+                result.imagePath shouldBe savedMember.imagePath
+                result.nickname shouldBe savedMember.nickname
+            }
+        }
 
-    @MockK
-    private lateinit var passwordEncoder: BCryptPasswordEncoder
+    }
 
-    @DisplayName("회원가입 테스트")
-    @Test
-    fun memberJoinTest() {
-        // given
-        val memberJoinRequestDto = MemberJoinRequestDto(
+}) {
+    companion object {
+        private val memberJoinRequestDto = MemberJoinRequestDto(
             email = "youngjun@test.com",
             password = "1234",
             name = "박영준",
             phone = "010-1234-1234",
             nickname = "개발하는만두",
-            area = "판교",
+            areaId = 1
         )
+
         val savedMember = Member(
-            id = 1,
             email = "youngjun@test.com",
             password = "1234Encoding",
             name = "박영준",
             phone = "010-1234-1234",
+            imagePath = "",
             nickname = "개발하는만두",
-            area = "판교",
+            areaId = Area.of("0001")
         )
 
-        every {
-            memberRepository.save(any())
-        } returns savedMember
-
-        every {
-            memberRepository.existsByEmail(any())
-        } returns false
-
-        every {
-            passwordEncoder.encode(any())
-        } returns "1234Encoding"
-
-        // when
-        val result = target.join(memberJoinRequestDto)
-
-        // then
-        verify(exactly = 1) {
-            memberRepository.save(any())
-        }
-        assert(result == 1.toLong())
     }
 
-    @DisplayName("이메일 중복검사 테스트")
-    @Test
-    fun duplicateEmailTest() {
-        // given
-        val memberJoinRequestDto = MemberJoinRequestDto(
-            email = "youngjun@test.com",
-            password = "1234",
-            name = "박영준",
-            phone = "010-1234-1234",
-            nickname = "개발하는만두",
-            area = "판교",
-        )
-        val savedMember = Member(
-            id = 1,
-            email = "youngjun@test.com",
-            password = "1234Encoding",
-            name = "박영준",
-            phone = "010-1234-1234",
-            nickname = "개발하는만두",
-            area = "판교",
-        )
-
-        every {
-            memberRepository.save(any())
-        } returns savedMember
-
-        // when
-        every {
-            memberRepository.existsByEmail(any())
-        } returns true
-
-        // then
-        assertThrows(DuplicationMemberException::class.java) {
-            target.join(memberJoinRequestDto)
-        }
-    }
 }

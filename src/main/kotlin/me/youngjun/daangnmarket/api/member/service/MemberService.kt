@@ -1,15 +1,19 @@
 package me.youngjun.daangnmarket.api.member.service
 
 import me.youngjun.daangnmarket.api.member.dto.LoginRequestDto
+import me.youngjun.daangnmarket.api.member.dto.MemberInfoResponseDto
 import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
 import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.domain.enum.Role
 import me.youngjun.daangnmarket.common.repository.MemberRepository
 import me.youngjun.daangnmarket.infra.exception.DuplicationMemberException
 import me.youngjun.daangnmarket.infra.exception.ErrorCode
+import me.youngjun.daangnmarket.infra.exception.NotFoundAreaException
+import me.youngjun.daangnmarket.infra.exception.NotFoundMemberException
 import me.youngjun.daangnmarket.infra.jwt.JwtTokenProvider
 import me.youngjun.daangnmarket.infra.jwt.TokenDto
 import mu.KotlinLogging
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -55,6 +59,17 @@ class MemberService(
         println("authenticate = $authenticate")
         // 인증 정보 기반 JWT 토큰 생성
         return jwtTokenProvider.generateTokenDto(authenticate)
+    }
+
+    fun getMemberInfo(
+        memberId: Long
+    ): MemberInfoResponseDto {
+        val member = memberRepository.findByIdOrNull(memberId)
+            ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+        return MemberInfoResponseDto(
+            nickname = member.nickname,
+            imagePath = member.imagePath
+        )
     }
 
     fun checkDuplicateUser(
