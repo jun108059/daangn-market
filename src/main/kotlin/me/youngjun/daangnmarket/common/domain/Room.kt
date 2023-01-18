@@ -4,14 +4,14 @@ import javax.persistence.*
 
 @Entity
 @Table
-class Likes(
+class Room(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    val product: Product,
+    var productId: Product,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
-    val member: Member
+    var memberId: Member,
 
-) : BaseEntity()
+    ) : BaseEntity()
