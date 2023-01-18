@@ -8,7 +8,6 @@ data class MemberJoinRequestDto(
     var name: String = "",
     var phone: String = "",
     var nickname: String = "",
-    var area: String? = "판교",
-    var role: Role? = Role.ROLE_USER,
-
-    )
+    var areaId: Long = 1,
+    var role: Role? = Role.ROLE_USER
+)
