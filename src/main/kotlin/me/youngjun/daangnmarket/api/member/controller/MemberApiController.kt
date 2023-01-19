@@ -1,6 +1,7 @@
 package me.youngjun.daangnmarket.api.member.controller
 
 import me.youngjun.daangnmarket.api.member.dto.MemberJoinRequestDto
+import me.youngjun.daangnmarket.api.member.dto.ProfileChangeRequestDto
 import me.youngjun.daangnmarket.api.member.service.MemberService
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
@@ -31,6 +32,15 @@ class MemberApiController(
     ): ResponseEntity<Any> {
         val memberInfo = memberService.getMemberInfo(principal.name.toLong())
         return ResponseEntity(memberInfo, HttpStatus.OK)
+    }
+
+    @PutMapping("/api/v1/member")
+    fun updateMember(
+        @RequestBody profileChangeRequestDto: ProfileChangeRequestDto,
+        principal: Principal
+    ): ResponseEntity<Any> {
+        memberService.changeProfile(principal.name.toLong(), profileChangeRequestDto)
+        return ResponseEntity(null, HttpStatus.OK)
     }
 
 }

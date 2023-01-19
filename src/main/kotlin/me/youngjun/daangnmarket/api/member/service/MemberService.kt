@@ -67,4 +67,19 @@ class MemberService(
         }
     }
 
+    fun changeProfile(
+        memberId: Long,
+        profileChangeRequestDto: ProfileChangeRequestDto
+    ) {
+        val member = memberRepository.findByIdOrNull(memberId)
+            ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+        member.nickname = profileChangeRequestDto.nickname
+        if (profileChangeRequestDto.imageUrl != "") {
+            member.imagePath = profileChangeRequestDto.imageUrl
+        }
+        val changedMember = memberRepository.save(member)
+        log.info { "changedMember : ${changedMember.imagePath}, ${changedMember.nickname}" }
+    }
+
+
 }
