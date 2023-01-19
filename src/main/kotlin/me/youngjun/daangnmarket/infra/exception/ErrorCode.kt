@@ -12,6 +12,8 @@ enum class ErrorCode(
 
     // 404 NOT_FOUND 잘못된 리소스 접근
     DEFAULT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 정보입니다."),
+    AREA_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 지역입니다."),
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다."),
 
     // 409 CONFLICT 중복된 리소스
     DUPLICATE_USER_EMAIL(HttpStatus.CONFLICT, "이미 가입된 이메일입니다."),
