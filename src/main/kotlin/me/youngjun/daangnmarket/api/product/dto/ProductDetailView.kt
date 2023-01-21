@@ -1,5 +1,6 @@
 package me.youngjun.daangnmarket.api.product.dto
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
 data class ProductDetailView(
@@ -9,6 +10,7 @@ data class ProductDetailView(
     val title: String,
     val price: Long,
     val category: String,
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val createAt: LocalDateTime,
     val content: String,
     val chatCount: Int,
