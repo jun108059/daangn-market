@@ -1,18 +1,18 @@
 package me.youngjun.daangnmarket.api.product.service
 
 import me.youngjun.daangnmarket.api.product.dto.CategoryView
+import me.youngjun.daangnmarket.api.product.dto.ProductDetailView
 import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
 import me.youngjun.daangnmarket.api.product.dto.ProductView
 import me.youngjun.daangnmarket.api.product.mapper.ProductViewMapper
 import me.youngjun.daangnmarket.common.domain.Image
 import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.domain.Product
-import me.youngjun.daangnmarket.common.domain.enum.Category
-import me.youngjun.daangnmarket.common.repository.ImageRepository
-import me.youngjun.daangnmarket.common.repository.LikesRepository
-import me.youngjun.daangnmarket.common.repository.MemberRepository
-import me.youngjun.daangnmarket.common.repository.ProductRepository
+import me.youngjun.daangnmarket.common.domain.enum.CategoryEnum
+import me.youngjun.daangnmarket.common.repository.*
 import me.youngjun.daangnmarket.infra.exception.ErrorCode
+import me.youngjun.daangnmarket.infra.exception.NotFoundAreaException
+import me.youngjun.daangnmarket.infra.exception.NotFoundException
 import me.youngjun.daangnmarket.infra.exception.NotFoundMemberException
 import mu.KotlinLogging
 import org.springframework.data.repository.findByIdOrNull
@@ -23,8 +23,11 @@ import org.springframework.transaction.annotation.Transactional
 class ProductService(
     private val productRepository: ProductRepository,
     private val memberRepository: MemberRepository,
+    private val areaRepository: AreaRepository,
+    private val categoryRepository: CategoryRepository,
     private val imageRepository: ImageRepository,
     private val likesRepository: LikesRepository,
+    private val roomRepository: RoomRepository,
 ) {
     companion object {
         private val log = KotlinLogging.logger {}
@@ -83,5 +86,35 @@ class ProductService(
             categoryViewList.add(CategoryView(category.categoryCode, category.categoryName))
         }
         return categoryViewList
+    }
+
+
+    fun getProduct(
+        productId: Long
+    ): ProductDetailView {
+        val product = productRepository.findByIdOrNull(productId)
+            ?: throw NotFoundException(ErrorCode.PRODUCT_NOT_FOUND)
+        // Image 정보 가져오기
+        val imageList = imageRepository.findByProductId(productId)
+        val imagePathList = imageList.map { it.filePath }.toList()
+        // member 정보 가져오기
+        val member = memberRepository.findByIdOrNull(product.member.id)
+            ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+        val category = product.categoryId.name
+            ?: throw NotFoundException(ErrorCode.CATEGORY_NOT_FOUND)
+        val roomList = roomRepository.findByProductId(product)
+        val likeList = likesRepository.findByProductId(productId)
+        return ProductDetailView(
+            imagePaths = imagePathList,
+            imagePathCount = imagePathList.size,
+            nickname = member.nickname,
+            title = product.title,
+            price = product.price,
+            category = category,
+            createAt = product.createdAt!!,
+            content = product.content,
+            chatCount = roomList.size,
+            likesCount = likeList.size
+        )
     }
 }
