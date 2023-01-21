@@ -40,7 +40,13 @@ class ProductService(
     ): Product {
         val member: Member = memberRepository.findByIdOrNull(memberId)
             ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+        val area = areaRepository.findByIdOrNull(registerDto.areaId)
+            ?: throw NotFoundAreaException(ErrorCode.AREA_NOT_FOUND)
+        val category = categoryRepository.findByIdOrNull(registerDto.categoryId)
+            ?: throw NotFoundException(ErrorCode.CATEGORY_NOT_FOUND)
         val productEntity = Product.convertToEntity(registerDto, member)
+        productEntity.areaId = area
+        productEntity.categoryId = category
         val savedProduct = productRepository.save(productEntity)
 
         registerDto.imageList.forEach { image ->
@@ -56,14 +62,15 @@ class ProductService(
     fun getProductList(
         memberId: Long
     ): List<ProductView> {
-        val productList = productRepository.findAll()
-        // TODO productRepository.findByArea(areaId) 회원가입 시 area 받으면 변경
+        val member = memberRepository.findByIdOrNull(memberId)
+            ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+        val productList = productRepository.findByAreaId(member.areaId)
         val productViewList = mutableListOf<ProductView>()
         for (product in productList) {
             // TODO QueryDSL 적용
             val findByProductId = likesRepository.findByProductId(product.id!!)
             val likeCount = findByProductId.size
-            val imageList = imageRepository.findByProductId(product.id)
+            val imageList = imageRepository.findByProductId(product.id!!)
             var imageUrl = ""
             if (imageList.isNotEmpty()) {
                 imageUrl = imageList[0].filePath
@@ -82,8 +89,8 @@ class ProductService(
 
     fun getCategoryList(): List<CategoryView> {
         val categoryViewList = mutableListOf<CategoryView>()
-        Category.values().forEach { category ->
-            categoryViewList.add(CategoryView(category.categoryCode, category.categoryName))
+        CategoryEnum.values().forEach { category ->
+            categoryViewList.add(CategoryView(category.code, category.detail))
         }
         return categoryViewList
     }
