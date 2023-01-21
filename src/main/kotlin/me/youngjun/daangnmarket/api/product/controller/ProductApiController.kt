@@ -22,7 +22,6 @@ class ProductApiController(
     fun registerProduct(
         @RequestBody productRegisterDto: ProductRegisterDto,
         principal: Principal,
-//        @AuthenticationPrincipal userDetail: UserDetailsImpl
     ): ResponseEntity<Any> {
         log.debug { "product Register [ user : $principal ]" }
         val memberId = principal.name.toLong()
@@ -45,4 +44,13 @@ class ProductApiController(
         val categoryList = productService.getCategoryList()
         return ApiResponse.success(categoryList)
     }
+
+    @GetMapping("/api/v1/product")
+    fun getProduct(
+        @RequestParam("product_id") productId: Long
+    ): ResponseEntity<Any> {
+        val productDetailView = productService.getProduct(productId)
+        return ResponseEntity.ok(productDetailView)
+    }
+
 }
