@@ -73,3 +73,7 @@ Authorization: Bearer {{TOKEN}}
 #  "chatCount": 0,
 #  "likesCount": 0
 #}
+
+### 상품 삭제 API
+DELETE http://localhost:8081/api/v1/product?product_id=1
+Authorization: Bearer {{TOKEN}}
