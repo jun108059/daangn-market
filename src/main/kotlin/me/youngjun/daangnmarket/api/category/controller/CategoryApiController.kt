@@ -1,9 +1,9 @@
 package me.youngjun.daangnmarket.api.category.controller
 
-import me.youngjun.daangnmarket.api.category.dto.CategoryView
 import me.youngjun.daangnmarket.api.category.service.CategoryService
-import me.youngjun.daangnmarket.common.domain.dto.ApiResponse
-import org.springframework.web.bind.annotation.*
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CategoryApiController(
@@ -11,8 +11,8 @@ class CategoryApiController(
 ) {
     @GetMapping("/api/v1/category/list")
     fun getCategoryListView(
-    ): ApiResponse<List<CategoryView>> {
+    ): ResponseEntity<Any> {
         val categoryList = categoryService.getCategoryList()
-        return ApiResponse.success(categoryList)
+        return ResponseEntity.ok(categoryList)
     }
 }
