@@ -124,4 +124,11 @@ class ProductService(
             likesCount = likeList.size
         )
     }
+
+    fun deleteProduct(
+        productId: Long
+    ) {
+        productRepository.deleteById(productId)
+    }
+
 }

@@ -53,4 +53,13 @@ class ProductApiController(
         return ResponseEntity.ok(productDetailView)
     }
 
+    @DeleteMapping("/api/v1/product")
+    fun deleteProduct(
+        @RequestParam("product_id") productId: Long
+    ): ResponseEntity<Any> {
+        productService.deleteProduct(productId)
+        return ResponseEntity.ok("productId [$productId] delete Ok")
+    }
+
+
 }
