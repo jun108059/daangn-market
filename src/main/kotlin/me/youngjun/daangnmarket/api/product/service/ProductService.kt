@@ -76,15 +76,6 @@ class ProductService(
         return productViewList
     }
 
-    fun getCategoryList(): List<CategoryView> {
-        val categoryViewList = mutableListOf<CategoryView>()
-        CategoryEnum.values().forEach { category ->
-            categoryViewList.add(CategoryView(category.code, category.detail))
-        }
-        return categoryViewList
-    }
-
-
     fun getProduct(
         productId: Long
     ): ProductDetailView {
