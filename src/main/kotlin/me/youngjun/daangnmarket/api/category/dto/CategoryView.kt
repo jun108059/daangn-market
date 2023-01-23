@@ -1,4 +1,4 @@
-package me.youngjun.daangnmarket.api.product.dto
+package me.youngjun.daangnmarket.api.category.dto
 
 data class CategoryView(
     val categoryCode: String,

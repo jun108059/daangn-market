@@ -1,9 +1,8 @@
 package me.youngjun.daangnmarket.api.product.controller
 
-import me.youngjun.daangnmarket.api.product.dto.CategoryView
 import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
+import me.youngjun.daangnmarket.api.product.dto.ProductUpdateDto
 import me.youngjun.daangnmarket.api.product.service.ProductService
-import me.youngjun.daangnmarket.common.domain.dto.ApiResponse
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -36,13 +35,6 @@ class ProductApiController(
         val memberId = principal.name.toLong()
         val productList = productService.getProductList(memberId)
         return ResponseEntity.ok(productList)
-    }
-
-    @GetMapping("/api/v1/category/list")
-    fun getCategoryListView(
-    ): ApiResponse<List<CategoryView>> {
-        val categoryList = productService.getCategoryList()
-        return ApiResponse.success(categoryList)
     }
 
     @GetMapping("/api/v1/product")
