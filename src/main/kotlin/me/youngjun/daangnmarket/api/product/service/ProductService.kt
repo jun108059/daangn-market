@@ -1,13 +1,19 @@
 package me.youngjun.daangnmarket.api.product.service
 
-import me.youngjun.daangnmarket.api.product.dto.*
+import me.youngjun.daangnmarket.api.category.service.CategoryService
+import me.youngjun.daangnmarket.api.image.service.ImageService
+import me.youngjun.daangnmarket.api.product.dto.ProductDetailView
+import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
+import me.youngjun.daangnmarket.api.product.dto.ProductUpdateDto
+import me.youngjun.daangnmarket.api.product.dto.ProductView
 import me.youngjun.daangnmarket.api.product.mapper.ProductViewMapper
-import me.youngjun.daangnmarket.common.domain.Category
 import me.youngjun.daangnmarket.common.domain.Image
 import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.domain.Product
-import me.youngjun.daangnmarket.common.domain.enum.CategoryEnum
-import me.youngjun.daangnmarket.common.repository.*
+import me.youngjun.daangnmarket.common.repository.AreaRepository
+import me.youngjun.daangnmarket.common.repository.ImageRepository
+import me.youngjun.daangnmarket.common.repository.MemberRepository
+import me.youngjun.daangnmarket.common.repository.ProductRepository
 import me.youngjun.daangnmarket.infra.exception.ErrorCode
 import me.youngjun.daangnmarket.infra.exception.NotFoundAreaException
 import me.youngjun.daangnmarket.infra.exception.NotFoundException
@@ -22,7 +28,7 @@ class ProductService(
     private val productRepository: ProductRepository,
     private val memberRepository: MemberRepository,
     private val areaRepository: AreaRepository,
-    private val categoryRepository: CategoryRepository,
+    private val categoryService: CategoryService,
     private val imageRepository: ImageRepository,
 ) {
     companion object {
@@ -38,8 +44,7 @@ class ProductService(
             ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
         val area = areaRepository.findByIdOrNull(registerDto.areaId)
             ?: throw NotFoundAreaException(ErrorCode.AREA_NOT_FOUND)
-        val category = categoryRepository.findByIdOrNull(registerDto.categoryId)
-            ?: throw NotFoundException(ErrorCode.CATEGORY_NOT_FOUND)
+        val category = categoryService.getCategory(registerDto.categoryId)
         val productEntity = Product.convertToEntity(registerDto, member)
         productEntity.areaId = area
         productEntity.categoryId = category
