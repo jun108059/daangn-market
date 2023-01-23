@@ -32,8 +32,20 @@ class Product(
 
     @Column
     var price: Long
-
 ) : BaseEntity() {
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    private val _image: MutableList<Image> = mutableListOf()
+    val imageList: List<Image> get() = _image.toList()
+
+    @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    private val _room: MutableList<Room> = mutableListOf()
+    val roomList: List<Room> get() = _room.toList()
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    private val _likes: MutableList<Likes> = mutableListOf()
+    val likesList: List<Likes> get() = _likes.toList()
+
     companion object {
         fun convertToEntity(
             productRegisterDto: ProductRegisterDto,
