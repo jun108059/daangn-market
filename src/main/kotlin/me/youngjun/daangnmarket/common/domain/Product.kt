@@ -16,7 +16,7 @@ class Product(
     @JoinColumn(name = "area_id", referencedColumnName = "id")
     var areaId: Area = Area.of("0001"),
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     var categoryId: Category = Category.of("0"),
 
