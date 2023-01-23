@@ -1,0 +1,36 @@
+### 회원 가입 API
+POST http://localhost:8081/api/v1/member
+Content-Type: application/json
+
+{
+  "email": "youngjun108059@gmail.com",
+  "password": "1234",
+  "name": "박영준",
+  "phone": "010-1234-5678",
+  "nickname": "만두",
+  "area": 1
+}
+
+### 로그인 API
+POST http://localhost:8081/api/v1/login
+Content-Type: application/json
+
+{
+  "email": "youngjun108059@gmail.com",
+  "password": "1234"
+}
+
+### 회원 조회 API
+GET http://localhost:8081/api/v1/member
+Authorization: Bearer {{TOKEN}}
+
+
+### 회원 정보 수정 API
+PUT http://localhost:8081/api/v1/member
+Authorization: Bearer {{TOKEN}}
+Content-Type: application/json
+
+{
+  "imageUrl": "https://post-phinf.pstatic.net/MjAxNzExMDNfMjk5/MDAxNTA5NjcyMzc3MjA0.OYfQtBOkEBhcvgyP-tRqheOZ-zDkFhHr_PUGy5WRBwQg.o7PQXtXDl8ohnW5-Tl_4CWovaST-hOyZXYRRfaFFhOcg.JPEG/IMG_8153.JPG",
+  "nickname": "개발하는 만두"
+}
