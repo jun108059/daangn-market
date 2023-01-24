@@ -53,5 +53,13 @@ class ProductApiController(
         return ResponseEntity.ok("productId [$productId] delete Ok")
     }
 
+    @PutMapping("/api/v1/product")
+    fun updateProduct(
+        @RequestBody productUpdateDto: ProductUpdateDto,
+        principal: Principal
+    ): ResponseEntity<Any> {
+        productService.updateProduct(productUpdateDto)
+        return ResponseEntity.ok("productId [${productUpdateDto.id}] update Ok")
+    }
 
 }

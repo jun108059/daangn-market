@@ -77,3 +77,22 @@ Authorization: Bearer {{TOKEN}}
 ### 상품 삭제 API
 DELETE http://localhost:8081/api/v1/product?product_id=1
 Authorization: Bearer {{TOKEN}}
+
+### 상품 수정 API
+PUT http://localhost:8081/api/v1/product
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+  "id": 3,
+  "title": "당근 인형 팔아요(수정)",
+  "categoryId": "1",
+  "price": 234000,
+  "content": "택포하면 2000만원",
+  "status": "RESERVED",
+  "imageList": [
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtEZnrIpn-1h19MsYCvh9y9Sss-HCrNBRCLLJV2e1Td06uurM2-dBs9BfabEhG0aFqkdE&usqp=CAU",
+    "https://img.seoul.co.kr/img/upload/2018/06/11/SSI_20180611134927_O2.jpg",
+    "http://storage.enuri.info/pic_upload/knowbox2/202008/1235090782020082406ccecf4-a8fc-41c7-92a5-1146e0ce4189.gif"
+  ]
+}
