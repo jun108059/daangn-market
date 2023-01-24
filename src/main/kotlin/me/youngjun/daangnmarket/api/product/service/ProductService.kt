@@ -30,6 +30,7 @@ class ProductService(
     private val areaRepository: AreaRepository,
     private val categoryService: CategoryService,
     private val imageRepository: ImageRepository,
+    private val imageService: ImageService
 ) {
     companion object {
         private val log = KotlinLogging.logger {}
@@ -107,6 +108,32 @@ class ProductService(
         productId: Long
     ) {
         productRepository.deleteById(productId)
+    }
+
+    @Transactional
+    fun updateProduct(
+        updateDto: ProductUpdateDto
+    ) {
+        val product = productRepository.findByIdOrNull(updateDto.id)
+            ?: throw NotFoundException(ErrorCode.PRODUCT_NOT_FOUND)
+
+        val imageList = mutableListOf<Image>()
+        updateDto.imageList.map {
+            imageList.add(Image(it, product))
+        }
+        imageService.updateImages(
+            productId = product.id!!,
+            imageList = imageList
+        )
+        val category = categoryService.getCategory(updateDto.categoryId)
+
+        product.title = updateDto.title
+        product.categoryId = category
+        product.price = updateDto.price
+        product.content = updateDto.content
+        product.status = updateDto.status
+
+        productRepository.save(product)
     }
 
 }
