@@ -1,0 +1,19 @@
+### 좋아요 등록 API
+POST http://localhost:8081/api/v1/likes
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+  "memberId": 1,
+  "productId": 2
+}
+
+### 좋아요 삭제 API
+DELETE http://localhost:8081/api/v1/likes
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+  "memberId": 1,
+  "productId": 2
+}
