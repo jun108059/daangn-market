@@ -13,7 +13,6 @@ import me.youngjun.daangnmarket.common.domain.Area
 import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.repository.AreaRepository
 import me.youngjun.daangnmarket.common.repository.MemberRepository
-import me.youngjun.daangnmarket.infra.exception.DuplicationMemberException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.*
@@ -47,8 +46,8 @@ internal class MemberServiceTest : BehaviorSpec({
         }
         When("이미 가입된 회원이 요청하면") {
             every { memberRepository.existsByEmail(any()) } returns true
-            Then("DuplicationMemberException 예외를 던진다") {
-                shouldThrow<DuplicationMemberException> {
+            Then("DuplicateException 예외를 던진다") {
+                shouldThrow<DuplicateException> {
                     target.join(memberJoinRequestDto)
                 }
             }
