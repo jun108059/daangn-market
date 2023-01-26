@@ -1,32 +1,28 @@
 package me.youngjun.daangnmarket.infra.exception
 
-import me.youngjun.daangnmarket.common.domain.dto.ApiResponse
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
 class GlobalExceptionHandler {
 
-    @ExceptionHandler(DuplicationMemberException::class)
-    protected fun handleDuplicationMemberException(
-        e: DuplicationMemberException
-    ): ApiResponse<Nothing> {
-        return ApiResponse(
-            status = e.errorCode.status,
-            message = e.errorCode.message,
-            null
-        )
+    @ExceptionHandler(DuplicateException::class)
+    protected fun handleDuplicationException(
+        e: DuplicateException
+    ): ResponseEntity<String> {
+        return ResponseEntity
+            .status(e.errorCode.status)
+            .body(e.errorCode.message)
     }
 
     @ExceptionHandler(NotFoundMemberException::class)
     protected fun handleNotFoundMemberException(
         e: NotFoundMemberException
-    ): ApiResponse<Nothing> {
-        return ApiResponse(
-            status = e.errorCode.status,
-            message = e.errorCode.message,
-            null
-        )
+    ): ResponseEntity<String> {
+        return ResponseEntity
+            .status(e.errorCode.status)
+            .body(e.errorCode.message)
     }
 
 }

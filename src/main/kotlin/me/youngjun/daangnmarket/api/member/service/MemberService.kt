@@ -8,7 +8,7 @@ import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.domain.enum.Role
 import me.youngjun.daangnmarket.common.repository.AreaRepository
 import me.youngjun.daangnmarket.common.repository.MemberRepository
-import me.youngjun.daangnmarket.infra.exception.DuplicationMemberException
+import me.youngjun.daangnmarket.infra.exception.DuplicateException
 import me.youngjun.daangnmarket.infra.exception.ErrorCode
 import me.youngjun.daangnmarket.infra.exception.NotFoundAreaException
 import me.youngjun.daangnmarket.infra.exception.NotFoundMemberException
@@ -63,7 +63,7 @@ class MemberService(
     ) {
         val isExistence = memberRepository.existsByEmail(email)
         if (isExistence) {
-            throw DuplicationMemberException(ErrorCode.DUPLICATE_USER_EMAIL)
+            throw DuplicateException(ErrorCode.DUPLICATE_USER_EMAIL)
         }
     }
 
