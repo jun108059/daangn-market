@@ -13,9 +13,9 @@ import me.youngjun.daangnmarket.common.domain.Area
 import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.repository.AreaRepository
 import me.youngjun.daangnmarket.common.repository.MemberRepository
+import me.youngjun.daangnmarket.infra.exception.DuplicateException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import java.util.*
 
 internal class MemberServiceTest : BehaviorSpec({
     val memberRepository = mockk<MemberRepository>()
