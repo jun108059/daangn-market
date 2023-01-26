@@ -4,5 +4,5 @@ import me.youngjun.daangnmarket.common.domain.Likes
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface LikesRepository : JpaRepository<Likes, Long> {
-    fun findByProductId(productId: Long): List<Likes>
+    fun existsByMemberIdAndProductId(memberId: Long, productId: Long): Boolean
 }
