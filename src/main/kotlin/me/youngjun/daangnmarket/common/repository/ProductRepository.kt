@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ProductRepository : JpaRepository<Product, Long> {
     fun findByAreaId(areaId: Area): List<Product>
+
+    fun findByAreaIdAndTitleContaining(areaId: Area, title: String): List<Product>
 }

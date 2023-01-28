@@ -67,19 +67,7 @@ class ProductService(
         val member = memberRepository.findByIdOrNull(memberId)
             ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
         val productList = productRepository.findByAreaId(member.areaId)
-        val productViewList = mutableListOf<ProductView>()
-        for (product in productList) {
-            // TODO QueryDSL 적용
-            productViewList.add(
-                ProductViewMapper.convertToProductView(
-                    product = product,
-                    likeCount = product.likesList.size,
-                    chatCount = product.roomList.size,
-                    imageUrl = product.imageList.map { it.filePath }[0]
-                )
-            )
-        }
-        return productViewList
+        return convertViewList(productList)
     }
 
     fun getProduct(
@@ -104,6 +92,7 @@ class ProductService(
         )
     }
 
+    @Transactional
     fun deleteProduct(
         productId: Long
     ) {
@@ -136,4 +125,34 @@ class ProductService(
         productRepository.save(product)
     }
 
+    @Transactional(readOnly = true)
+    fun searchProduct(
+        memberId: Long,
+        word: String
+    ): List<ProductView> {
+        val member = memberRepository.findByIdOrNull(memberId)
+            ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+        val productList = productRepository.findByAreaIdAndTitleContaining(
+            areaId = member.areaId,
+            title = word
+        )
+        return convertViewList(productList)
+    }
+
+    private fun convertViewList(
+        productList: List<Product>
+    ): MutableList<ProductView> {
+        val productViewList = mutableListOf<ProductView>()
+        for (product in productList) {
+            productViewList.add(
+                ProductViewMapper.convertToProductView(
+                    product = product,
+                    likeCount = product.likesList.size,
+                    chatCount = product.roomList.size,
+                    imageUrl = product.imageList.map { it.filePath }[0]
+                )
+            )
+        }
+        return productViewList
+    }
 }

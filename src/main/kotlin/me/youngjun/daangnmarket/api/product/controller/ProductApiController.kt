@@ -2,6 +2,7 @@ package me.youngjun.daangnmarket.api.product.controller
 
 import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
 import me.youngjun.daangnmarket.api.product.dto.ProductUpdateDto
+import me.youngjun.daangnmarket.api.product.dto.ProductView
 import me.youngjun.daangnmarket.api.product.service.ProductService
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
@@ -55,11 +56,20 @@ class ProductApiController(
 
     @PutMapping("/api/v1/product")
     fun updateProduct(
-        @RequestBody productUpdateDto: ProductUpdateDto,
-        principal: Principal
+        @RequestBody productUpdateDto: ProductUpdateDto
     ): ResponseEntity<Any> {
         productService.updateProduct(productUpdateDto)
         return ResponseEntity.ok("productId [${productUpdateDto.id}] update Ok")
+    }
+
+    @GetMapping("/api/v1/product/search")
+    fun searchProductByTitle(
+        @RequestParam("word") word: String,
+        principal: Principal
+    ): ResponseEntity<List<ProductView>> {
+        val memberId = principal.name.toLong()
+        val searchProductList = productService.searchProduct(memberId, word)
+        return ResponseEntity.ok(searchProductList)
     }
 
 }
