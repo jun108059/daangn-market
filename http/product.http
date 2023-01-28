@@ -96,3 +96,7 @@ Authorization: Bearer {{TOKEN}}
     "http://storage.enuri.info/pic_upload/knowbox2/202008/1235090782020082406ccecf4-a8fc-41c7-92a5-1146e0ce4189.gif"
   ]
 }
+
+### 상품 검색 API
+GET http://localhost:8081/api/v1/product/search?word=당근
+Authorization: Bearer {{TOKEN}}
