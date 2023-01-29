@@ -44,6 +44,10 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
+    // querydsl 관련 의존성
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+
     // mysql
     runtimeOnly("mysql:mysql-connector-java:8.0.31")
 
