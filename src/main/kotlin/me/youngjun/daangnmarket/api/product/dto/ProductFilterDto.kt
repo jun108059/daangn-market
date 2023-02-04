@@ -1,0 +1,9 @@
+package me.youngjun.daangnmarket.api.product.dto
+
+import me.youngjun.daangnmarket.common.domain.enum.ProductStatus
+
+data class ProductFilterDto(
+    val categoryId: Long?,
+    val status: ProductStatus?,
+    val likes: Boolean,
+)

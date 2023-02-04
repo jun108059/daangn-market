@@ -1,5 +1,6 @@
 package me.youngjun.daangnmarket.api.product.controller
 
+import me.youngjun.daangnmarket.api.product.dto.ProductFilterDto
 import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
 import me.youngjun.daangnmarket.api.product.dto.ProductUpdateDto
 import me.youngjun.daangnmarket.api.product.dto.ProductView
@@ -32,9 +33,10 @@ class ProductApiController(
     @GetMapping("/api/v1/product/list")
     fun getProductList(
         principal: Principal,
+        filter: ProductFilterDto
     ): ResponseEntity<Any> {
         val memberId = principal.name.toLong()
-        val productList = productService.getProductList(memberId)
+        val productList = productService.getProductList(memberId, filter)
         return ResponseEntity.ok(productList)
     }
 
