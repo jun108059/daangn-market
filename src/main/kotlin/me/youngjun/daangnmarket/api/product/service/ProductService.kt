@@ -2,11 +2,10 @@ package me.youngjun.daangnmarket.api.product.service
 
 import me.youngjun.daangnmarket.api.category.service.CategoryService
 import me.youngjun.daangnmarket.api.image.service.ImageService
-import me.youngjun.daangnmarket.api.product.dto.ProductDetailView
-import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
-import me.youngjun.daangnmarket.api.product.dto.ProductUpdateDto
-import me.youngjun.daangnmarket.api.product.dto.ProductView
+import me.youngjun.daangnmarket.api.product.dto.*
 import me.youngjun.daangnmarket.api.product.mapper.ProductViewMapper
+import me.youngjun.daangnmarket.api.product.persistence.ProductRepositorySupport
+import me.youngjun.daangnmarket.common.domain.Category
 import me.youngjun.daangnmarket.common.domain.Image
 import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.domain.Product
@@ -26,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class ProductService(
     private val productRepository: ProductRepository,
+    private val productRepositorySupport: ProductRepositorySupport,
     private val memberRepository: MemberRepository,
     private val areaRepository: AreaRepository,
     private val categoryService: CategoryService,
@@ -39,7 +39,7 @@ class ProductService(
     @Transactional
     fun register(
         registerDto: ProductRegisterDto,
-        memberId: Long,
+        memberId: Long
     ): Product {
         val member: Member = memberRepository.findByIdOrNull(memberId)
             ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
@@ -62,11 +62,24 @@ class ProductService(
 
     @Transactional(readOnly = true)
     fun getProductList(
-        memberId: Long
+        memberId: Long,
+        filter: ProductFilterDto
     ): List<ProductView> {
         val member = memberRepository.findByIdOrNull(memberId)
             ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
         val productList = productRepository.findByAreaId(member.areaId)
+        var category: Category? = null
+        if (filter.categoryId != null) {
+            category = categoryService.getCategory(filter.categoryId)
+        }
+
+        productRepositorySupport.findByFilter(
+            area = member.areaId,
+            category = category,
+            status = filter.status,
+            member = member,
+            likes = filter.likes ?: false
+        )
         return convertViewList(productList)
     }
 
