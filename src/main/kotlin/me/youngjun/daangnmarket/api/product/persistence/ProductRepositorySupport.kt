@@ -22,8 +22,7 @@ class ProductRepositorySupport(
         category: Category?,
         status: ProductStatus?,
         member: Member?,
-        likes: Boolean,
-        title: String
+        likes: Boolean
     ): List<Product> {
         return queryFactory
             .selectFrom(product)
@@ -31,8 +30,7 @@ class ProductRepositorySupport(
                 eqArea(area),
                 eqCategory(category),
                 eqStatus(status),
-                eqMember(member),
-                containTitle(title)
+                eqMember(member)
             )
             .fetch()
     }
@@ -59,11 +57,5 @@ class ProductRepositorySupport(
         return if (member == null) {
             null
         } else product.member.eq(member)
-    }
-
-    private fun containTitle(title: String?): BooleanExpression? {
-        return if (title.isNullOrEmpty()) {
-            null
-        } else product.title.containsIgnoreCase(title)
     }
 }
