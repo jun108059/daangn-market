@@ -1,7 +1,6 @@
 package me.youngjun.daangnmarket.common.domain
 
 import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
-import me.youngjun.daangnmarket.common.domain.enum.ProductStatus
 import javax.persistence.*
 
 @Entity
@@ -55,9 +54,8 @@ class Product(
                 member = member,
                 title = productRegisterDto.title,
                 content = productRegisterDto.content,
-                price = productRegisterDto.price,
+                price = productRegisterDto.price
             )
         }
-
     }
 }
