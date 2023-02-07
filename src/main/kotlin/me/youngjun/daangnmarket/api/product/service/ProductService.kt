@@ -89,7 +89,7 @@ class ProductService(
             category = category,
             status = filter.status,
             member = member,
-            likes = filter.likes ?: false
+            isLike = filter.likes ?: false
         )
         return convertViewList(productList)
     }

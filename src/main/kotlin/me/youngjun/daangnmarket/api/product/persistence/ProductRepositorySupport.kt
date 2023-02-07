@@ -3,6 +3,7 @@ package me.youngjun.daangnmarket.api.product.persistence
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import me.youngjun.daangnmarket.common.domain.*
+import me.youngjun.daangnmarket.common.domain.QLikes.likes
 import me.youngjun.daangnmarket.common.domain.QProduct.product
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -22,17 +23,28 @@ class ProductRepositorySupport(
         category: Category?,
         status: ProductStatus?,
         member: Member?,
-        likes: Boolean
+        isLike: Boolean
     ): List<Product> {
-        return queryFactory
-            .selectFrom(product)
-            .where(
-                eqArea(area),
-                eqCategory(category),
-                eqStatus(status),
-                eqMember(member)
-            )
-            .fetch()
+        if (isLike) {
+            return queryFactory
+                .selectFrom(product)
+                .join(product._likes, likes)
+                .where(
+                    eqStatus(status),
+                    eqLikeMember(member)
+                )
+                .fetch()
+        } else {
+            return queryFactory
+                .selectFrom(product)
+                .where(
+                    eqArea(area),
+                    eqCategory(category),
+                    eqStatus(status),
+                    eqMember(member)
+                )
+                .fetch()
+        }
     }
 
     private fun eqArea(area: Area?): BooleanExpression? {
@@ -57,5 +69,11 @@ class ProductRepositorySupport(
         return if (member == null) {
             null
         } else product.member.eq(member)
+    }
+
+    private fun eqLikeMember(member: Member?): BooleanExpression? {
+        return if (member == null) {
+            null
+        } else likes.member.eq(member)
     }
 }
