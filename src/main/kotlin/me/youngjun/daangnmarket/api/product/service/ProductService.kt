@@ -5,7 +5,7 @@ import me.youngjun.daangnmarket.api.image.service.ImageService
 import me.youngjun.daangnmarket.api.product.dto.*
 import me.youngjun.daangnmarket.api.product.mapper.ProductViewMapper
 import me.youngjun.daangnmarket.api.product.persistence.ProductRepositorySupport
-import me.youngjun.daangnmarket.common.domain.Category
+import me.youngjun.daangnmarket.common.domain.Area
 import me.youngjun.daangnmarket.common.domain.Image
 import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.domain.Product
@@ -65,16 +65,27 @@ class ProductService(
         memberId: Long,
         filter: ProductFilterDto
     ): List<ProductView> {
-        val member = memberRepository.findByIdOrNull(memberId)
-            ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
-        val productList = productRepository.findByAreaId(member.areaId)
-        var category: Category? = null
-        if (filter.categoryId != null) {
-            category = categoryService.getCategory(filter.categoryId)
+        var area: Area? = null
+        var member: Member? = null
+
+        // memberId 기반 필터는 area 미적용
+        if (filter.memberId != null) {
+            member = memberRepository.findByIdOrNull(filter.memberId)
+                ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+        } else {
+            val tempMember = memberRepository.findByIdOrNull(memberId)
+                ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+            area = tempMember.areaId
         }
 
-        productRepositorySupport.findByFilter(
-            area = member.areaId,
+        val category = if (filter.categoryId != null) {
+            categoryService.getCategory(filter.categoryId)
+        } else {
+            null
+        }
+
+        val productList = productRepositorySupport.findByFilter(
+            area = area,
             category = category,
             status = filter.status,
             member = member,

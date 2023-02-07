@@ -122,9 +122,9 @@ GET http://localhost:8081/api/v1/product/list?category_id=1
 Authorization: Bearer {{TOKEN}}
 
 ### 상품리스트 조회 (상품 상태별 조회)
-GET http://localhost:8081/api/v1/product/list?status=TRADING
+GET http://localhost:8081/api/v1/product/list?member_id=1&status=TRADING
 Authorization: Bearer {{TOKEN}}
 
 ### 상품리스트 조회 (상품 상태별 조회 2)
-GET http://localhost:8081/api/v1/product/list?status=RESERVED
+GET http://localhost:8081/api/v1/product/list?member_id=1&status=RESERVED
 Authorization: Bearer {{TOKEN}}
