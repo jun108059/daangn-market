@@ -128,3 +128,7 @@ Authorization: Bearer {{TOKEN}}
 ### 상품리스트 조회 (상품 상태별 조회 2)
 GET http://localhost:8081/api/v1/product/list?member_id=1&status=RESERVED
 Authorization: Bearer {{TOKEN}}
+
+### 상품리스트 조회 (특정회원 + 좋아요 + 거래상태)
+GET http://localhost:8081/api/v1/product/list?member_id=1&likes=true&status=TRADING
+Authorization: Bearer {{TOKEN}}
