@@ -1,9 +1,11 @@
 package me.youngjun.daangnmarket.api.product.controller
 
+import me.youngjun.daangnmarket.api.product.dto.ProductFilterDto
 import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
 import me.youngjun.daangnmarket.api.product.dto.ProductUpdateDto
 import me.youngjun.daangnmarket.api.product.dto.ProductView
 import me.youngjun.daangnmarket.api.product.service.ProductService
+import me.youngjun.daangnmarket.common.domain.ProductStatus
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,7 +14,7 @@ import java.security.Principal
 
 @RestController
 class ProductApiController(
-    private val productService: ProductService,
+    private val productService: ProductService
 ) {
     companion object {
         private val log = KotlinLogging.logger {}
@@ -21,7 +23,7 @@ class ProductApiController(
     @PostMapping("/api/v1/product")
     fun registerProduct(
         @RequestBody productRegisterDto: ProductRegisterDto,
-        principal: Principal,
+        principal: Principal
     ): ResponseEntity<Any> {
         log.debug { "product Register [ user : $principal ]" }
         val memberId = principal.name.toLong()
@@ -32,9 +34,19 @@ class ProductApiController(
     @GetMapping("/api/v1/product/list")
     fun getProductList(
         principal: Principal,
+        @RequestParam("category_id") categoryId: Long?,
+        @RequestParam("status") status: ProductStatus?,
+        @RequestParam("likes") likes: Boolean?,
+        @RequestParam("member_id") memberId: Long?
     ): ResponseEntity<Any> {
-        val memberId = principal.name.toLong()
-        val productList = productService.getProductList(memberId)
+        val filter = ProductFilterDto(
+            categoryId,
+            status,
+            likes,
+            memberId
+        )
+        val requestMemberId = principal.name.toLong()
+        val productList = productService.getProductList(requestMemberId, filter)
         return ResponseEntity.ok(productList)
     }
 
@@ -71,5 +83,4 @@ class ProductApiController(
         val searchProductList = productService.searchProduct(memberId, word)
         return ResponseEntity.ok(searchProductList)
     }
-
 }

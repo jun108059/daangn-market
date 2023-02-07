@@ -31,6 +31,5 @@ class Category(
                 name = CategoryEnum.of(categoryCode)!!.detail
             )
         }
-
     }
 }

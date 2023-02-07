@@ -10,8 +10,7 @@ class CategoryApiController(
     private val categoryService: CategoryService
 ) {
     @GetMapping("/api/v1/category/list")
-    fun getCategoryListView(
-    ): ResponseEntity<Any> {
+    fun getCategoryListView(): ResponseEntity<Any> {
         val categoryList = categoryService.getCategoryList()
         return ResponseEntity.ok(categoryList)
     }

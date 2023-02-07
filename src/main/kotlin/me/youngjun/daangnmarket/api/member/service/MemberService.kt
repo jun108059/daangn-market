@@ -80,6 +80,4 @@ class MemberService(
         val changedMember = memberRepository.save(member)
         log.info { "changedMember : ${changedMember.imagePath}, ${changedMember.nickname}" }
     }
-
-
 }

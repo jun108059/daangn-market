@@ -26,5 +26,4 @@ enum class AreaEnum(
             return PANGYO.areaName
         }
     }
-
 }

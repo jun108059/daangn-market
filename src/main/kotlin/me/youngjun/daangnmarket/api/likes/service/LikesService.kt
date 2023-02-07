@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 class LikesService(
     private val likesRepository: LikesRepository,
     private val memberRepository: MemberRepository,
-    private val productRepository: ProductRepository,
+    private val productRepository: ProductRepository
 ) {
 
     @Transactional
@@ -52,5 +52,4 @@ class LikesService(
             ?: throw NotFoundException(ErrorCode.PRODUCT_NOT_FOUND)
         return Likes(product, member)
     }
-
 }

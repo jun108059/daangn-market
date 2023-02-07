@@ -1,4 +1,4 @@
-package me.youngjun.daangnmarket.common.domain.enum
+package me.youngjun.daangnmarket.common.domain
 
 enum class ProductStatus(
     val value: String

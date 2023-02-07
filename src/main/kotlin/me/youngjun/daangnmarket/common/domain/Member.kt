@@ -36,7 +36,6 @@ class Member(
 
 ) : BaseEntity() {
 
-
     fun bcryptPassword(encode: String) {
         this.password = encode
     }

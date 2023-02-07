@@ -2,11 +2,10 @@ package me.youngjun.daangnmarket.api.product.service
 
 import me.youngjun.daangnmarket.api.category.service.CategoryService
 import me.youngjun.daangnmarket.api.image.service.ImageService
-import me.youngjun.daangnmarket.api.product.dto.ProductDetailView
-import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
-import me.youngjun.daangnmarket.api.product.dto.ProductUpdateDto
-import me.youngjun.daangnmarket.api.product.dto.ProductView
+import me.youngjun.daangnmarket.api.product.dto.*
 import me.youngjun.daangnmarket.api.product.mapper.ProductViewMapper
+import me.youngjun.daangnmarket.api.product.persistence.ProductRepositorySupport
+import me.youngjun.daangnmarket.common.domain.Area
 import me.youngjun.daangnmarket.common.domain.Image
 import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.domain.Product
@@ -26,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class ProductService(
     private val productRepository: ProductRepository,
+    private val productRepositorySupport: ProductRepositorySupport,
     private val memberRepository: MemberRepository,
     private val areaRepository: AreaRepository,
     private val categoryService: CategoryService,
@@ -39,7 +39,7 @@ class ProductService(
     @Transactional
     fun register(
         registerDto: ProductRegisterDto,
-        memberId: Long,
+        memberId: Long
     ): Product {
         val member: Member = memberRepository.findByIdOrNull(memberId)
             ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
@@ -62,11 +62,35 @@ class ProductService(
 
     @Transactional(readOnly = true)
     fun getProductList(
-        memberId: Long
+        memberId: Long,
+        filter: ProductFilterDto
     ): List<ProductView> {
-        val member = memberRepository.findByIdOrNull(memberId)
-            ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
-        val productList = productRepository.findByAreaId(member.areaId)
+        var area: Area? = null
+        var member: Member? = null
+
+        // memberId 기반 필터는 area 미적용
+        if (filter.memberId != null) {
+            member = memberRepository.findByIdOrNull(filter.memberId)
+                ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+        } else {
+            val tempMember = memberRepository.findByIdOrNull(memberId)
+                ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
+            area = tempMember.areaId
+        }
+
+        val category = if (filter.categoryId != null) {
+            categoryService.getCategory(filter.categoryId)
+        } else {
+            null
+        }
+
+        val productList = productRepositorySupport.findByFilter(
+            area = area,
+            category = category,
+            status = filter.status,
+            member = member,
+            isLike = filter.likes ?: false
+        )
         return convertViewList(productList)
     }
 

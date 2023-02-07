@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
-
 @Configuration
 class SecurityConfig(
     private val userDetailsService: UserDetailsServiceImpl,
@@ -68,5 +67,4 @@ class SecurityConfig(
 
     @Bean
     fun passwordEncoder() = BCryptPasswordEncoder()
-
 }

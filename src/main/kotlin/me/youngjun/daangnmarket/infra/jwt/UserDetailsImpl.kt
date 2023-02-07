@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails
 
 class UserDetailsImpl private constructor(
     private val userName: String,
-    private val password: String,
+    private val password: String
 ) : UserDetails {
 
     override fun getUsername(): String = userName

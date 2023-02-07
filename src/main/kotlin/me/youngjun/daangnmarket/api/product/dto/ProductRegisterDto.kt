@@ -9,5 +9,5 @@ data class ProductRegisterDto(
     val price: Long,
     // @NotBlank(message = "게시글 내용을 입력해주세요")
     val content: String,
-    val imageList: List<String>,
+    val imageList: List<String>
 )

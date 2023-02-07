@@ -18,7 +18,7 @@ class SignApiController(
 
     @PostMapping("/api/v1/login")
     fun signIn(
-        @RequestBody loginForm: LoginRequestDto,
+        @RequestBody loginForm: LoginRequestDto
     ): ResponseEntity<Any> {
         log.info { loginForm.toString() }
         val token = signService.loginByEmail(loginForm)

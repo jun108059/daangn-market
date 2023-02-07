@@ -61,5 +61,4 @@ abstract class BaseEntity : Persistable<Long> {
     protected fun load() {
         _isNew = false
     }
-
 }

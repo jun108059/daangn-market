@@ -2,3 +2,10 @@ spring:
   config:
     additional-location:
       config/
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: debug
+        type: trace

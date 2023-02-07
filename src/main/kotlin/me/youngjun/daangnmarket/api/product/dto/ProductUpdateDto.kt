@@ -1,6 +1,6 @@
 package me.youngjun.daangnmarket.api.product.dto
 
-import me.youngjun.daangnmarket.common.domain.enum.ProductStatus
+import me.youngjun.daangnmarket.common.domain.ProductStatus
 
 data class ProductUpdateDto(
     val id: Long,
