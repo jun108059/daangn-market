@@ -8,5 +8,5 @@ data class ProductView(
     val likeCount: Int,
     val chatCount: Int,
     val productStatus: String,
-    val imgUrl: String,
+    val imgUrl: String
 )

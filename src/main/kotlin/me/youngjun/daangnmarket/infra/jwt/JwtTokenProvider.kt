@@ -15,11 +15,10 @@ import org.springframework.stereotype.Component
 import java.util.*
 import javax.crypto.SecretKey
 
-
 @Component
 class JwtTokenProvider(
     @Value("\${jwt.secretKey}") private val secretKey: String,
-    @Value("\${jwt.accessValidTime}") private val expiredTime: Long, // 30분
+    @Value("\${jwt.accessValidTime}") private val expiredTime: Long // 30분
 ) {
 
     companion object {
@@ -28,8 +27,8 @@ class JwtTokenProvider(
         private val log = KotlinLogging.logger {}
     }
 
-    private final val keyBytes: ByteArray = Decoders.BASE64.decode(secretKey);
-    val key: SecretKey = Keys.hmacShaKeyFor(keyBytes);
+    private final val keyBytes: ByteArray = Decoders.BASE64.decode(secretKey)
+    val key: SecretKey = Keys.hmacShaKeyFor(keyBytes)
 
     fun generateTokenDto(
         authentication: Authentication

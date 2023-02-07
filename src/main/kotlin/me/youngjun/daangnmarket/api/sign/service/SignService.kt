@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class SignService(
     private val authenticationManager: AuthenticationManager,
-    private val jwtTokenProvider: JwtTokenProvider,
+    private val jwtTokenProvider: JwtTokenProvider
 ) {
     @Transactional(readOnly = true)
     fun loginByEmail(

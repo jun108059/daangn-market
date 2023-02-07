@@ -23,5 +23,4 @@ enum class ErrorCode(
 
     // 500 INTERNAL SERVER ERROR
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러입니다. 서버팀에 연락주세요.");
-
 }

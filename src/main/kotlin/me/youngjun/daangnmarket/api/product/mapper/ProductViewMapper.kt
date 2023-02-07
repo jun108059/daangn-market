@@ -22,7 +22,6 @@ class ProductViewMapper {
                 productStatus = product.status!!.value,
                 imgUrl = imageUrl
             )
-
         }
     }
 }

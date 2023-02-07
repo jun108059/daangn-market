@@ -11,20 +11,19 @@ class Image(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    val product: Product,
+    val product: Product
 
-    ) : BaseEntity() {
+) : BaseEntity() {
 
     companion object {
         fun convertToEntity(
             product: Product,
-            imagePath: String,
+            imagePath: String
         ): Image {
             return Image(
                 filePath = imagePath,
                 product = product
             )
         }
-
     }
 }

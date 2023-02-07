@@ -16,7 +16,6 @@ class JwtAuthenticationFilter(
         const val AUTHORIZATION_HEADER = "Authorization"
         const val BEARER_PREFIX = "Bearer "
         private val log = KotlinLogging.logger {}
-
     }
 
     override fun doFilterInternal(

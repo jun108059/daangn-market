@@ -24,5 +24,4 @@ class GlobalExceptionHandler {
             .status(e.errorCode.status)
             .body(e.errorCode.message)
     }
-
 }

@@ -18,6 +18,6 @@ class Message(
     var content: String,
 
     @Column(columnDefinition = "tinyint", length = 1)
-    var isRead: Int,
+    var isRead: Int
 
-    ) : BaseEntity()
+) : BaseEntity()

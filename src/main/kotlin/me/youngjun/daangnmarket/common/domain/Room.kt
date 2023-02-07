@@ -12,6 +12,6 @@ class Room(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
-    var memberId: Member,
+    var memberId: Member
 
-    ) : BaseEntity()
+) : BaseEntity()

@@ -11,7 +11,7 @@ import java.security.Principal
 
 @RestController
 class MemberApiController(
-    private val memberService: MemberService,
+    private val memberService: MemberService
 ) {
 
     companion object {
@@ -20,7 +20,7 @@ class MemberApiController(
 
     @PostMapping("/api/v1/member")
     fun createMember(
-        @RequestBody memberJoinForm: MemberJoinRequestDto,
+        @RequestBody memberJoinForm: MemberJoinRequestDto
     ): ResponseEntity<Any> {
         val memberId = memberService.join(memberJoinForm)
         return ResponseEntity(memberId, HttpStatus.CREATED)
@@ -28,7 +28,7 @@ class MemberApiController(
 
     @GetMapping("/api/v1/member")
     fun getMember(
-        principal: Principal,
+        principal: Principal
     ): ResponseEntity<Any> {
         val memberInfo = memberService.getMemberInfo(principal.name.toLong())
         return ResponseEntity(memberInfo, HttpStatus.OK)
@@ -42,5 +42,4 @@ class MemberApiController(
         memberService.changeProfile(principal.name.toLong(), profileChangeRequestDto)
         return ResponseEntity(null, HttpStatus.OK)
     }
-
 }
