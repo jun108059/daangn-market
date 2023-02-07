@@ -5,5 +5,6 @@ import me.youngjun.daangnmarket.common.domain.ProductStatus
 data class ProductFilterDto(
     val categoryId: Long?,
     val status: ProductStatus?,
-    val likes: Boolean?
+    val likes: Boolean?,
+    val memberId: Long?
 )
