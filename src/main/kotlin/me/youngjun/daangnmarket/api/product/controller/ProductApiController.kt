@@ -7,6 +7,8 @@ import me.youngjun.daangnmarket.api.product.dto.ProductView
 import me.youngjun.daangnmarket.api.product.service.ProductService
 import me.youngjun.daangnmarket.common.domain.ProductStatus
 import mu.KotlinLogging
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -37,16 +39,19 @@ class ProductApiController(
         @RequestParam("category_id") categoryId: Long?,
         @RequestParam("status") status: ProductStatus?,
         @RequestParam("likes") likes: Boolean?,
-        @RequestParam("member_id") memberId: Long?
-    ): ResponseEntity<Any> {
+        @RequestParam("member_id") memberId: Long?,
+        @RequestParam("search") searchKeyWord: String?,
+        pageable: Pageable
+    ): ResponseEntity<Page<ProductView>> {
         val filter = ProductFilterDto(
             categoryId,
             status,
             likes,
-            memberId
+            memberId,
+            searchKeyWord
         )
         val requestMemberId = principal.name.toLong()
-        val productList = productService.getProductList(requestMemberId, filter)
+        val productList = productService.getProductList(requestMemberId, filter, pageable)
         return ResponseEntity.ok(productList)
     }
 
@@ -72,15 +77,5 @@ class ProductApiController(
     ): ResponseEntity<Any> {
         productService.updateProduct(productUpdateDto)
         return ResponseEntity.ok("productId [${productUpdateDto.id}] update Ok")
-    }
-
-    @GetMapping("/api/v1/product/search")
-    fun searchProductByTitle(
-        @RequestParam("word") word: String,
-        principal: Principal
-    ): ResponseEntity<List<ProductView>> {
-        val memberId = principal.name.toLong()
-        val searchProductList = productService.searchProduct(memberId, word)
-        return ResponseEntity.ok(searchProductList)
     }
 }

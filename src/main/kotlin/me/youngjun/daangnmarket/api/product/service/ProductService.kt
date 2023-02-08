@@ -3,7 +3,6 @@ package me.youngjun.daangnmarket.api.product.service
 import me.youngjun.daangnmarket.api.category.service.CategoryService
 import me.youngjun.daangnmarket.api.image.service.ImageService
 import me.youngjun.daangnmarket.api.product.dto.*
-import me.youngjun.daangnmarket.api.product.mapper.ProductViewMapper
 import me.youngjun.daangnmarket.api.product.persistence.ProductRepositorySupport
 import me.youngjun.daangnmarket.common.domain.Area
 import me.youngjun.daangnmarket.common.domain.Image
@@ -18,6 +17,8 @@ import me.youngjun.daangnmarket.infra.exception.NotFoundAreaException
 import me.youngjun.daangnmarket.infra.exception.NotFoundException
 import me.youngjun.daangnmarket.infra.exception.NotFoundMemberException
 import mu.KotlinLogging
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -63,8 +64,9 @@ class ProductService(
     @Transactional(readOnly = true)
     fun getProductList(
         memberId: Long,
-        filter: ProductFilterDto
-    ): List<ProductView> {
+        filter: ProductFilterDto,
+        pageable: Pageable
+    ): Page<ProductView> {
         var area: Area? = null
         var member: Member? = null
 
@@ -84,14 +86,15 @@ class ProductService(
             null
         }
 
-        val productList = productRepositorySupport.findByFilter(
+        return productRepositorySupport.findByFilter(
             area = area,
             category = category,
             status = filter.status,
             member = member,
-            isLike = filter.likes ?: false
+            isLike = filter.likes ?: false,
+            searchKeyWord = filter.searchKeyWord,
+            pageable = pageable
         )
-        return convertViewList(productList)
     }
 
     fun getProduct(
@@ -147,36 +150,5 @@ class ProductService(
         product.status = updateDto.status
 
         productRepository.save(product)
-    }
-
-    @Transactional(readOnly = true)
-    fun searchProduct(
-        memberId: Long,
-        word: String
-    ): List<ProductView> {
-        val member = memberRepository.findByIdOrNull(memberId)
-            ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
-        val productList = productRepository.findByAreaIdAndTitleContaining(
-            areaId = member.areaId,
-            title = word
-        )
-        return convertViewList(productList)
-    }
-
-    private fun convertViewList(
-        productList: List<Product>
-    ): MutableList<ProductView> {
-        val productViewList = mutableListOf<ProductView>()
-        for (product in productList) {
-            productViewList.add(
-                ProductViewMapper.convertToProductView(
-                    product = product,
-                    likeCount = product.likesList.size,
-                    chatCount = product.roomList.size,
-                    imageUrl = product.imageList.map { it.filePath }[0]
-                )
-            )
-        }
-        return productViewList
     }
 }

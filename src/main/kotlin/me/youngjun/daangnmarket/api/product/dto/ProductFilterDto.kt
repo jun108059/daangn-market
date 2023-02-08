@@ -6,5 +6,6 @@ data class ProductFilterDto(
     val categoryId: Long?,
     val status: ProductStatus?,
     val likes: Boolean?,
-    val memberId: Long?
+    val memberId: Long?,
+    val searchKeyWord: String?
 )
