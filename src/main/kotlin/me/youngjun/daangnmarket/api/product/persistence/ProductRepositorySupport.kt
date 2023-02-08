@@ -8,7 +8,7 @@ import me.youngjun.daangnmarket.common.domain.*
 import me.youngjun.daangnmarket.common.domain.QLikes.likes
 import me.youngjun.daangnmarket.common.domain.QProduct.product
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.data.support.PageableExecutionUtils
 import org.springframework.stereotype.Repository
@@ -30,7 +30,7 @@ class ProductRepositorySupport(
         member: Member?,
         isLike: Boolean,
         searchKeyWord: String?,
-        pageable: Pageable
+        pageable: PageRequest
     ): Page<ProductView> {
         if (isLike) {
             val products = queryFactory

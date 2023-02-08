@@ -8,7 +8,7 @@ import me.youngjun.daangnmarket.api.product.service.ProductService
 import me.youngjun.daangnmarket.common.domain.ProductStatus
 import mu.KotlinLogging
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -41,7 +41,8 @@ class ProductApiController(
         @RequestParam("likes") likes: Boolean?,
         @RequestParam("member_id") memberId: Long?,
         @RequestParam("search") searchKeyWord: String?,
-        pageable: Pageable
+        @RequestParam("page") page: Int?,
+        @RequestParam("size") size: Int?
     ): ResponseEntity<Page<ProductView>> {
         val filter = ProductFilterDto(
             categoryId,
@@ -50,8 +51,11 @@ class ProductApiController(
             memberId,
             searchKeyWord
         )
+        val pageNum = page?.minus(1) ?: 0
+        val pageSize = size ?: 10
+        val pageRequest = PageRequest.of(pageNum, pageSize)
         val requestMemberId = principal.name.toLong()
-        val productList = productService.getProductList(requestMemberId, filter, pageable)
+        val productList = productService.getProductList(requestMemberId, filter, pageRequest)
         return ResponseEntity.ok(productList)
     }
 

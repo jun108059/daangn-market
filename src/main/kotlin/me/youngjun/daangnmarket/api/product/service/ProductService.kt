@@ -18,7 +18,7 @@ import me.youngjun.daangnmarket.infra.exception.NotFoundException
 import me.youngjun.daangnmarket.infra.exception.NotFoundMemberException
 import mu.KotlinLogging
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -65,7 +65,7 @@ class ProductService(
     fun getProductList(
         memberId: Long,
         filter: ProductFilterDto,
-        pageable: Pageable
+        pageable: PageRequest
     ): Page<ProductView> {
         var area: Area? = null
         var member: Member? = null
