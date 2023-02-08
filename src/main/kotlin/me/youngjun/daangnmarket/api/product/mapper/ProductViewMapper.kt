@@ -6,7 +6,7 @@ import me.youngjun.daangnmarket.common.domain.enum.AreaEnum
 
 class ProductViewMapper {
     companion object {
-        fun convertToProductView(
+        private fun convertToProductView(
             product: Product,
             likeCount: Int,
             chatCount: Int,
@@ -22,6 +22,23 @@ class ProductViewMapper {
                 productStatus = product.status!!.value,
                 imgUrl = imageUrl
             )
+        }
+
+        fun convertViewList(
+            productList: List<Product>
+        ): MutableList<ProductView> {
+            val productViewList = mutableListOf<ProductView>()
+            for (product in productList) {
+                productViewList.add(
+                    convertToProductView(
+                        product = product,
+                        likeCount = product.likesList.size,
+                        chatCount = product.roomList.size,
+                        imageUrl = product.imageList.map { it.filePath }[0]
+                    )
+                )
+            }
+            return productViewList
         }
     }
 }

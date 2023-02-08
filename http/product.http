@@ -97,10 +97,6 @@ Authorization: Bearer {{TOKEN}}
   ]
 }
 
-### 상품 검색 API
-GET http://localhost:8081/api/v1/product/search?word=당근
-Authorization: Bearer {{TOKEN}}
-
 ### 상품 등록 API 4
 POST http://localhost:8081/api/v1/product
 Content-Type: application/json
@@ -131,4 +127,12 @@ Authorization: Bearer {{TOKEN}}
 
 ### 상품리스트 조회 (특정회원 + 좋아요 + 거래상태)
 GET http://localhost:8081/api/v1/product/list?member_id=1&likes=true&status=TRADING
+Authorization: Bearer {{TOKEN}}
+
+### 상품리스트 조회 (검색)
+GET http://localhost:8081/api/v1/product/list?search=당근
+Authorization: Bearer {{TOKEN}}
+
+### 상품리스트 조회 (Pagination)
+GET http://localhost:8081/api/v1/product/list?page=1&size=2
 Authorization: Bearer {{TOKEN}}
