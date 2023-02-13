@@ -1,0 +1,3 @@
+### 지역 list 조회 API
+GET http://localhost:8081/api/v1/area/list
+Authorization: Bearer {{TOKEN}}
