@@ -40,6 +40,7 @@ class SecurityConfig(
             .antMatchers(
                 "/api/v1/member",
                 "/api/v1/login",
+                "/api/v1/area/list",
                 "/h2-console/**",
                 "/favicon.ico"
             ).permitAll()
