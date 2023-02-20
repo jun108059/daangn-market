@@ -41,8 +41,6 @@
 <script>
 import {useToast} from "vue-toastification";
 import $axiosInst from "@/common/AxiosInst"
-import router from "@/router";
-import store from "@/store";
 
 export default {
   setup() {
@@ -76,6 +74,7 @@ export default {
       this.toast.success("구현 예정입니다 :D");
     },
     submitForm: function () {
+      const that = this;
       if (this.validationCheck() === false) {
         return false;
       }
@@ -88,10 +87,11 @@ export default {
           .post(url, loginForm)
           .then(function (response) {
             console.log(response);
-            const token = response.data.grantType + " " + response.data.accessToken;
-            console.log(token);
-            store.dispatch('setToken', token);
-            router.push("/product/list");
+            that.$store.commit("login", response.data);
+            console.log("store 정보 : " + that.$store.getters.getUserName);
+            console.log("저장된 token 정보 : " + that.$store.getters.getToken);
+            that.toast.info("토큰정보 : " + that.$store.getters.getToken);
+            // router.push("/product/list");
           })
           .catch(function (error) {
             console.log(error);
