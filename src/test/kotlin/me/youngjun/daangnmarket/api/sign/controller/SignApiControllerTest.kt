@@ -6,8 +6,8 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import me.youngjun.daangnmarket.api.sign.dto.LoginRequestDto
+import me.youngjun.daangnmarket.api.sign.dto.LoginResponseDto
 import me.youngjun.daangnmarket.api.sign.service.SignService
-import me.youngjun.daangnmarket.infra.jwt.TokenDto
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
@@ -22,7 +22,7 @@ internal class SignApiControllerTest : DescribeSpec({
     describe("로그인 요청") {
         every {
             signService.loginByEmail(loginDto)
-        } returns tokenDto
+        } returns loginResponseDto
         val resultAction = mockMvc.perform(
             MockMvcRequestBuilders.post("/api/v1/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -49,15 +49,15 @@ internal class SignApiControllerTest : DescribeSpec({
                     )
             }
         }
-
     }
 }) {
 
     companion object {
-        private val objectMapper = ObjectMapper();
+        private val objectMapper = ObjectMapper()
         private val loginDto = LoginRequestDto("youngjun108059@gmail.com", "1234")
         val loginDtoJson = objectMapper.writeValueAsString(loginDto)!!
-        val tokenDto = TokenDto(
+        val loginResponseDto = LoginResponseDto(
+            name = "YoungJun",
             grantType = "Bearer",
             accessToken = "test123token",
             accessTokenExpiresIn = 1673557504848
