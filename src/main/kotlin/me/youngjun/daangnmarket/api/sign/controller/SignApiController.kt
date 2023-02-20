@@ -1,6 +1,7 @@
 package me.youngjun.daangnmarket.api.sign.controller
 
 import me.youngjun.daangnmarket.api.sign.dto.LoginRequestDto
+import me.youngjun.daangnmarket.api.sign.dto.LoginResponseDto
 import me.youngjun.daangnmarket.api.sign.service.SignService
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
@@ -19,7 +20,7 @@ class SignApiController(
     @PostMapping("/api/v1/login")
     fun signIn(
         @RequestBody loginForm: LoginRequestDto
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<LoginResponseDto> {
         log.info { loginForm.toString() }
         val token = signService.loginByEmail(loginForm)
         log.info { "Login completed : [${loginForm.email}], $token" }
