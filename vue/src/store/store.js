@@ -5,8 +5,8 @@ import actions from "@/store/actions";
 
 const store = createStore({
     state: { // 변수 집합
-        userName: null,
-        token: null,
+        userName: localStorage.getItem('userName'),
+        token: localStorage.getItem('token'),
     },
     getters, // 변수 get
     mutations, // 변수 set
