@@ -1,7 +1,9 @@
 <template>
   <v-toolbar color="orange" elevation="2">
-    <v-toolbar-title>개발자님 동네</v-toolbar-title>
+    <v-toolbar-title>{{ state?.userName }}님 동네</v-toolbar-title>
     <v-spacer></v-spacer>
+    <!--TODO("검색 페이지 연결")-->
+    <!--TODO("카테고리 조회 페이지 연결")-->
     <v-icon icon="mdi-magnify"></v-icon>&nbsp; &nbsp;
     <v-icon icon="mdi-format-list-bulleted"></v-icon>&nbsp; &nbsp;
   </v-toolbar>
@@ -31,13 +33,15 @@
   </v-container>
   <v-row class="my-footer">
     <div style="float: left; width: 48%" class="homeButton">
+      <!--TODO("Home 선택된 image 추가")-->
       <router-link to="#">
         <v-img class="mx-auto" width="80" src="@/assets/img/home.png"></v-img>
       </router-link>
     </div>
     <div style="width: 48%">
+      <!--TODO("나의 당근 페이지 연결")-->
       <router-link to="#">
-        <v-img class="mx-auto" width="80" src="@/assets/img/user.png"></v-img>
+        <v-img class="mx-auto" width="75" src="@/assets/img/user-blank.png"></v-img>
       </router-link>
     </div>
   </v-row>
@@ -46,6 +50,7 @@
 <script>
 import {onMounted, reactive} from "vue";
 import $axiosInst from "@/common/AxiosInst"
+import $store from "@/store/store"
 import chatImg from "@/assets/img/chat.png";
 import heartImg from "@/assets/img/heart.png";
 import addButton from "@/assets/img/addButton.png";
@@ -68,9 +73,11 @@ export default {
       chatImg: chatImg,
       heartImg: heartImg,
       addButton: addButton,
+      userName: ""
     });
     onMounted(() => {
       getProductList();
+      setUserName();
     });
     const getProductList = () => {
       const url = "/api/v1/product/list";
@@ -86,6 +93,9 @@ export default {
             alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
           });
     };
+    const setUserName = () => {
+      state.userName = $store.getters.getUserName
+    }
     return {
       state,
     };
