@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.cors.CorsUtils
 
 @Configuration
 class SecurityConfig(
@@ -37,6 +38,7 @@ class SecurityConfig(
             .accessDeniedHandler(jwtAccessDeniedHandler)
             .and()
             .authorizeRequests() // Request 권한
+            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
             .antMatchers(
                 "/api/v1/member",
                 "/api/v1/login",
