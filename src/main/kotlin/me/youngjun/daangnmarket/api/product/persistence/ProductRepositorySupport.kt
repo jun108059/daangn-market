@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class ProductRepositorySupport(
-    private val queryFactory: JPAQueryFactory
+    private val queryFactory: JPAQueryFactory,
 ) : QuerydslRepositorySupport(Product::class.java) {
     fun findAll(): List<Product> {
         return queryFactory
@@ -30,7 +30,7 @@ class ProductRepositorySupport(
         member: Member?,
         isLike: Boolean,
         searchKeyWord: String?,
-        pageable: PageRequest
+        pageable: PageRequest,
     ): Page<ProductView> {
         if (isLike) {
             val products = queryFactory
@@ -38,7 +38,7 @@ class ProductRepositorySupport(
                 .join(product._likes, likes)
                 .where(
                     eqStatus(status),
-                    eqLikeMember(member)
+                    eqLikeMember(member),
                 )
                 .offset(pageable.offset)
                 .limit(pageable.pageSize.toLong())
@@ -50,7 +50,7 @@ class ProductRepositorySupport(
                 .join(product._likes, likes)
                 .where(
                     eqStatus(status),
-                    eqLikeMember(member)
+                    eqLikeMember(member),
                 )
             val convertViewList = ProductViewMapper.convertViewList(products)
             return PageableExecutionUtils.getPage(convertViewList, pageable) { countQuery.fetchOne()!! }
@@ -62,7 +62,7 @@ class ProductRepositorySupport(
                     eqCategory(category),
                     eqStatus(status),
                     eqMember(member),
-                    containsTitle(searchKeyWord)
+                    containsTitle(searchKeyWord),
                 )
                 .offset(pageable.offset)
                 .limit(pageable.pageSize.toLong())
@@ -76,7 +76,7 @@ class ProductRepositorySupport(
                     eqCategory(category),
                     eqStatus(status),
                     eqMember(member),
-                    containsTitle(searchKeyWord)
+                    containsTitle(searchKeyWord),
                 )
             val convertViewList = ProductViewMapper.convertViewList(products)
             return PageableExecutionUtils.getPage(convertViewList, pageable) { countQuery.fetchOne()!! }
@@ -86,36 +86,48 @@ class ProductRepositorySupport(
     private fun eqArea(area: Area?): BooleanExpression? {
         return if (area == null) {
             null
-        } else product.areaId.eq(area)
+        } else {
+            product.areaId.eq(area)
+        }
     }
 
     private fun eqCategory(category: Category?): BooleanExpression? {
         return if (category == null) {
             null
-        } else product.categoryId.eq(category)
+        } else {
+            product.categoryId.eq(category)
+        }
     }
 
     private fun eqStatus(status: ProductStatus?): BooleanExpression? {
         return if (status == null) {
             null
-        } else product.status.eq(status)
+        } else {
+            product.status.eq(status)
+        }
     }
 
     private fun eqMember(member: Member?): BooleanExpression? {
         return if (member == null) {
             null
-        } else product.member.eq(member)
+        } else {
+            product.member.eq(member)
+        }
     }
 
     private fun eqLikeMember(member: Member?): BooleanExpression? {
         return if (member == null) {
             null
-        } else likes.member.eq(member)
+        } else {
+            likes.member.eq(member)
+        }
     }
 
     private fun containsTitle(searchKeyWord: String?): BooleanExpression? {
         return if (searchKeyWord.isNullOrBlank()) {
             null
-        } else product.title.contains(searchKeyWord)
+        } else {
+            product.title.contains(searchKeyWord)
+        }
     }
 }

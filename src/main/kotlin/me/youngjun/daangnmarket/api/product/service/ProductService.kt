@@ -31,7 +31,7 @@ class ProductService(
     private val areaRepository: AreaRepository,
     private val categoryService: CategoryService,
     private val imageRepository: ImageRepository,
-    private val imageService: ImageService
+    private val imageService: ImageService,
 ) {
     companion object {
         private val log = KotlinLogging.logger {}
@@ -40,7 +40,7 @@ class ProductService(
     @Transactional
     fun register(
         registerDto: ProductRegisterDto,
-        memberId: Long
+        memberId: Long,
     ): Product {
         val member: Member = memberRepository.findByIdOrNull(memberId)
             ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
@@ -65,7 +65,7 @@ class ProductService(
     fun getProductList(
         memberId: Long,
         filter: ProductFilterDto,
-        pageable: PageRequest
+        pageable: PageRequest,
     ): Page<ProductView> {
         var area: Area? = null
         var member: Member? = null
@@ -93,12 +93,12 @@ class ProductService(
             member = member,
             isLike = filter.likes ?: false,
             searchKeyWord = filter.searchKeyWord,
-            pageable = pageable
+            pageable = pageable,
         )
     }
 
     fun getProduct(
-        productId: Long
+        productId: Long,
     ): ProductDetailView {
         val product = productRepository.findByIdOrNull(productId)
             ?: throw NotFoundException(ErrorCode.PRODUCT_NOT_FOUND)
@@ -115,20 +115,20 @@ class ProductService(
             createAt = product.createdAt!!,
             content = product.content,
             chatCount = product.roomList.size,
-            likesCount = product.likesList.size
+            likesCount = product.likesList.size,
         )
     }
 
     @Transactional
     fun deleteProduct(
-        productId: Long
+        productId: Long,
     ) {
         productRepository.deleteById(productId)
     }
 
     @Transactional
     fun updateProduct(
-        updateDto: ProductUpdateDto
+        updateDto: ProductUpdateDto,
     ) {
         val product = productRepository.findByIdOrNull(updateDto.id)
             ?: throw NotFoundException(ErrorCode.PRODUCT_NOT_FOUND)
@@ -139,7 +139,7 @@ class ProductService(
         }
         imageService.updateImages(
             productId = product.id!!,
-            imageList = imageList
+            imageList = imageList,
         )
         val category = categoryService.getCategory(updateDto.categoryId)
 

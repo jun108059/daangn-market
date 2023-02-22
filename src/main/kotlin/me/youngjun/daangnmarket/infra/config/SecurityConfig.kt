@@ -21,7 +21,7 @@ class SecurityConfig(
     private val userDetailsService: UserDetailsServiceImpl,
     private val jwtTokenProvider: JwtTokenProvider,
     private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
-    private val jwtAccessDeniedHandler: JwtAccessDeniedHandler
+    private val jwtAccessDeniedHandler: JwtAccessDeniedHandler,
 ) {
 
     @Bean
@@ -42,7 +42,7 @@ class SecurityConfig(
                 "/api/v1/login",
                 "/api/v1/area/list",
                 "/h2-console/**",
-                "/favicon.ico"
+                "/favicon.ico",
             ).permitAll()
             .anyRequest().authenticated()
             .and()
@@ -50,7 +50,7 @@ class SecurityConfig(
             .and()
             .addFilterBefore(
                 JwtAuthenticationFilter(jwtTokenProvider),
-                UsernamePasswordAuthenticationFilter::class.java
+                UsernamePasswordAuthenticationFilter::class.java,
             )
             .build()
     }
@@ -59,7 +59,7 @@ class SecurityConfig(
     @Throws(Exception::class)
     fun authenticationManagerBean(http: HttpSecurity): AuthenticationManager? {
         val authenticationManagerBuilder = http.getSharedObject(
-            AuthenticationManagerBuilder::class.java
+            AuthenticationManagerBuilder::class.java,
         )
         authenticationManagerBuilder.userDetailsService<UserDetailsService>(userDetailsService)
             .passwordEncoder(passwordEncoder())
