@@ -16,7 +16,7 @@ import java.security.Principal
 
 @RestController
 class ProductApiController(
-    private val productService: ProductService
+    private val productService: ProductService,
 ) {
     companion object {
         private val log = KotlinLogging.logger {}
@@ -25,7 +25,7 @@ class ProductApiController(
     @PostMapping("/api/v1/product")
     fun registerProduct(
         @RequestBody productRegisterDto: ProductRegisterDto,
-        principal: Principal
+        principal: Principal,
     ): ResponseEntity<Any> {
         log.debug { "product Register [ user : $principal ]" }
         val memberId = principal.name.toLong()
@@ -42,14 +42,14 @@ class ProductApiController(
         @RequestParam("member_id") memberId: Long?,
         @RequestParam("search") searchKeyWord: String?,
         @RequestParam("page") page: Int?,
-        @RequestParam("size") size: Int?
+        @RequestParam("size") size: Int?,
     ): ResponseEntity<Page<ProductView>> {
         val filter = ProductFilterDto(
             categoryId,
             status,
             likes,
             memberId,
-            searchKeyWord
+            searchKeyWord,
         )
         val pageNum = page?.minus(1) ?: 0
         val pageSize = size ?: 10
@@ -61,7 +61,7 @@ class ProductApiController(
 
     @GetMapping("/api/v1/product")
     fun getProduct(
-        @RequestParam("product_id") productId: Long
+        @RequestParam("product_id") productId: Long,
     ): ResponseEntity<Any> {
         val productDetailView = productService.getProduct(productId)
         return ResponseEntity.ok(productDetailView)
@@ -69,7 +69,7 @@ class ProductApiController(
 
     @DeleteMapping("/api/v1/product")
     fun deleteProduct(
-        @RequestParam("product_id") productId: Long
+        @RequestParam("product_id") productId: Long,
     ): ResponseEntity<Any> {
         productService.deleteProduct(productId)
         return ResponseEntity.ok("productId [$productId] delete Ok")
@@ -77,7 +77,7 @@ class ProductApiController(
 
     @PutMapping("/api/v1/product")
     fun updateProduct(
-        @RequestBody productUpdateDto: ProductUpdateDto
+        @RequestBody productUpdateDto: ProductUpdateDto,
     ): ResponseEntity<Any> {
         productService.updateProduct(productUpdateDto)
         return ResponseEntity.ok("productId [${productUpdateDto.id}] update Ok")

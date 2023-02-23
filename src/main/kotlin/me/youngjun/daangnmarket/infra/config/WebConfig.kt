@@ -13,10 +13,9 @@ class WebConfig : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-            .allowedOrigins(
-                "http://192.168.0.2:8080",
-                "http://localhost:8080"
-            )
+            .allowedOrigins("http://localhost:8080", "http://localhost:8081")
+            .allowedMethods("*")
+            .allowCredentials(true)
     }
 
     @Bean
@@ -24,7 +23,7 @@ class WebConfig : WebMvcConfigurer {
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
         config.allowCredentials = true
-        config.addAllowedOriginPattern("*") // e.g. http://domain1.com
+        config.addAllowedOriginPattern("http://localhost:8080") // e.g. http://domain1.com
         config.addAllowedHeader("*")
         config.addAllowedMethod("*")
         source.registerCorsConfiguration("/api/**", config)
