@@ -22,7 +22,7 @@
       </v-col>
       <v-row class="mt-16">
         <v-col cols="12">
-          <v-btn type="submit" class="text-white" block color="#ff931e">
+          <v-btn type="submit" class="v-btn text-white" block color="#ff931e">
             로그인
           </v-btn>
         </v-col>
