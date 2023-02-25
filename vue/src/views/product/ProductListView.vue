@@ -35,7 +35,7 @@
       </div>
     </v-row>
     <router-link to="/product/register" class="addButton">
-      <v-img src="@/assets/img/addButton.png"></v-img>
+      <v-img src="@/assets/img/add-button.png"></v-img>
     </router-link>
   </v-container>
   <v-row class="my-footer">
