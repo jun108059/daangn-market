@@ -8,6 +8,7 @@ import me.youngjun.daangnmarket.common.domain.Area
 import me.youngjun.daangnmarket.common.domain.Image
 import me.youngjun.daangnmarket.common.domain.Member
 import me.youngjun.daangnmarket.common.domain.Product
+import me.youngjun.daangnmarket.common.domain.enum.AreaEnum
 import me.youngjun.daangnmarket.common.repository.AreaRepository
 import me.youngjun.daangnmarket.common.repository.ImageRepository
 import me.youngjun.daangnmarket.common.repository.MemberRepository
@@ -102,20 +103,26 @@ class ProductService(
     ): ProductDetailView {
         val product = productRepository.findByIdOrNull(productId)
             ?: throw NotFoundException(ErrorCode.PRODUCT_NOT_FOUND)
-        val imagePathList = product.imageList.map { it.filePath }
+        val imageUrlList = product.imageList.map { it.filePath }
         val category = product.categoryId.name
             ?: throw NotFoundException(ErrorCode.CATEGORY_NOT_FOUND)
         return ProductDetailView(
-            imagePaths = imagePathList,
-            imagePathCount = imagePathList.size,
-            nickname = product.member.nickname,
+            id = product.id!!,
+            memberId = product.member.id!!,
+            areaName = AreaEnum.getName(product.areaId.code),
             title = product.title,
             price = product.price,
-            category = category,
-            createAt = product.createdAt!!,
-            content = product.content,
-            chatCount = product.roomList.size,
             likesCount = product.likesList.size,
+            chatCount = product.roomList.size,
+            status = product.status!!,
+            createdDateTime = product.createdAt!!,
+            imageUrls = imageUrlList,
+            nickname = product.member.nickname,
+            category = category,
+            content = product.content,
+            sellerImageUrl = product.member.imagePath,
+            isLikes = null,
+            isMine = null,
         )
     }
 
