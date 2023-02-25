@@ -15,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional
 class LikesService(
     private val likesRepository: LikesRepository,
     private val memberRepository: MemberRepository,
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
 ) {
 
     @Transactional
     fun addLikes(
         memberId: Long,
-        productId: Long
+        productId: Long,
     ): Long {
         val likesEntity = checkValidationAndGetLikesEntity(memberId, productId)
         if (likesRepository.existsByMemberIdAndProductId(memberId, productId)) {
@@ -34,17 +34,26 @@ class LikesService(
     @Transactional
     fun deleteLikes(
         memberId: Long,
-        productId: Long
+        productId: Long,
     ): Long {
         checkValidationAndGetLikesEntity(memberId, productId)
         val likesEntity = likesRepository.findByMemberIdAndProductId(memberId, productId)
+            ?: throw NotFoundException(ErrorCode.LIKES_NOT_FOUND)
         likesRepository.delete(likesEntity)
         return likesEntity.id ?: 0
     }
 
+    @Transactional(readOnly = true)
+    fun getLikes(
+        memberId: Long,
+        productId: Long,
+    ): Likes? {
+        return likesRepository.findByMemberIdAndProductId(memberId, productId)
+    }
+
     private fun checkValidationAndGetLikesEntity(
         memberId: Long,
-        productId: Long
+        productId: Long,
     ): Likes {
         val member = memberRepository.findByIdOrNull(memberId)
             ?: throw NotFoundException(ErrorCode.MEMBER_NOT_FOUND)
