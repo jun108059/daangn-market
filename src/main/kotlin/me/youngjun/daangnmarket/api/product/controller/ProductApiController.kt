@@ -1,9 +1,7 @@
 package me.youngjun.daangnmarket.api.product.controller
 
-import me.youngjun.daangnmarket.api.product.dto.ProductFilterDto
-import me.youngjun.daangnmarket.api.product.dto.ProductRegisterDto
-import me.youngjun.daangnmarket.api.product.dto.ProductUpdateDto
-import me.youngjun.daangnmarket.api.product.dto.ProductView
+import me.youngjun.daangnmarket.api.likes.service.LikesService
+import me.youngjun.daangnmarket.api.product.dto.*
 import me.youngjun.daangnmarket.api.product.service.ProductService
 import me.youngjun.daangnmarket.common.domain.ProductStatus
 import mu.KotlinLogging
@@ -17,6 +15,7 @@ import java.security.Principal
 @RestController
 class ProductApiController(
     private val productService: ProductService,
+    private val likesService: LikesService,
 ) {
     companion object {
         private val log = KotlinLogging.logger {}
@@ -61,9 +60,15 @@ class ProductApiController(
 
     @GetMapping("/api/v1/product")
     fun getProduct(
+        principal: Principal,
         @RequestParam("product_id") productId: Long,
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<ProductDetailView> {
         val productDetailView = productService.getProduct(productId)
+        productDetailView.isLikes = likesService.getLikes(
+            memberId = principal.name.toLong(),
+            productId = productId,
+        ) != null
+        productDetailView.isMine = productDetailView.memberId == principal.name.toLong()
         return ResponseEntity.ok(productDetailView)
     }
 

@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus
 
 enum class ErrorCode(
     val status: HttpStatus,
-    val message: String
+    val message: String,
 ) {
 
     // 400 BAD_REQUEST 잘못된 요청
@@ -16,11 +16,12 @@ enum class ErrorCode(
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다."),
     PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 상품입니다."),
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
+    LIKES_NOT_FOUND(HttpStatus.NOT_FOUND, "관심 상품 정보가 없습니다."),
 
     // 409 CONFLICT 중복된 리소스
     DUPLICATE_USER_EMAIL(HttpStatus.CONFLICT, "이미 가입된 이메일입니다."),
     DUPLICATE_LIKES(HttpStatus.CONFLICT, "좋아요 요청이 중복됐습니다."),
 
     // 500 INTERNAL SERVER ERROR
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러입니다. 서버팀에 연락주세요.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러입니다. 서버팀에 연락주세요."),
 }
