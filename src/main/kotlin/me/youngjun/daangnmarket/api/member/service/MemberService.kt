@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional
 class MemberService(
     private val memberRepository: MemberRepository,
     private val areaRepository: AreaRepository,
-    private val passwordEncoder: BCryptPasswordEncoder
+    private val passwordEncoder: BCryptPasswordEncoder,
 ) {
     companion object {
         private val log = KotlinLogging.logger {}
@@ -30,7 +30,7 @@ class MemberService(
 
     @Transactional
     fun join(
-        form: MemberJoinRequestDto
+        form: MemberJoinRequestDto,
     ): Long {
         val area = areaRepository.findByIdOrNull(form.areaId)
             ?: NotFoundAreaException(ErrorCode.AREA_NOT_FOUND)
@@ -48,18 +48,18 @@ class MemberService(
     }
 
     fun getMemberInfo(
-        memberId: Long
+        memberId: Long,
     ): MemberInfoResponseDto {
         val member = memberRepository.findByIdOrNull(memberId)
             ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
         return MemberInfoResponseDto(
             nickname = member.nickname,
-            imagePath = member.imagePath
+            imagePath = member.imagePath,
         )
     }
 
     fun checkDuplicateUser(
-        email: String
+        email: String,
     ) {
         val isExistence = memberRepository.existsByEmail(email)
         if (isExistence) {
@@ -69,7 +69,7 @@ class MemberService(
 
     fun changeProfile(
         memberId: Long,
-        profileChangeRequestDto: ProfileChangeRequestDto
+        profileChangeRequestDto: ProfileChangeRequestDto,
     ) {
         val member = memberRepository.findByIdOrNull(memberId)
             ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
