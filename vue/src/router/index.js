@@ -7,6 +7,7 @@ import JoinOkView from "@/views/member/JoinOkView.vue";
 import ProductListView from "@/views/product/ProductListView.vue";
 import ProductRegisterView from "@/views/product/ProductRegisterView.vue";
 import ProductDetailView from "@/views/product/ProductDetailView.vue";
+import MyPageView from "@/views/member/MyPageView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -46,6 +47,11 @@ const router = createRouter({
             name: "ProductRegister",
             component: ProductRegisterView,
         },
+        {
+            path: "/my-page",
+            name: "MyPageView",
+            component: MyPageView,
+        }
     ],
 });
 

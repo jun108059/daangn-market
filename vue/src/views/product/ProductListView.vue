@@ -40,13 +40,10 @@
   </v-container>
   <v-row class="my-footer">
     <div style="float: left; width: 48%" class="homeButton">
-      <router-link to="#">
-        <v-img class="mx-auto" width="40" src="@/assets/img/home.png"></v-img>
-      </router-link>
+      <v-img class="mx-auto" width="40" src="@/assets/img/home.png"></v-img>
     </div>
     <div style="width: 48%">
-      <!--TODO("나의 당근 페이지 연결")-->
-      <router-link to="#">
+      <router-link to="/my-page">
         <v-img class="mx-auto" width="40" src="@/assets/img/user-blank.png"></v-img>
       </router-link>
     </div>
