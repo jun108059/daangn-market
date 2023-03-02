@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CategoryService(
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
 ) {
     fun getCategoryList(): List<CategoryView> {
         val categoryViewList = mutableListOf<CategoryView>()
@@ -21,9 +21,7 @@ class CategoryService(
         return categoryViewList
     }
 
-    fun getCategory(
-        categoryId: Long
-    ): Category {
+    fun getCategory(categoryId: Long): Category {
         return categoryRepository.findByIdOrNull(categoryId)
             ?: throw NotFoundException(ErrorCode.CATEGORY_NOT_FOUND)
     }
