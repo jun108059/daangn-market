@@ -5,7 +5,9 @@
     <!--TODO("검색 페이지 연결")-->
     <!--TODO("카테고리 조회 페이지 연결")-->
     <v-icon icon="mdi-magnify"></v-icon>&nbsp; &nbsp;
-    <v-icon icon="mdi-format-list-bulleted"></v-icon>&nbsp; &nbsp;
+    <v-btn icon id="no-background-hover" to="/category-list">
+      <v-icon icon="mdi-format-list-bulleted"></v-icon>&nbsp; &nbsp;
+    </v-btn>
   </v-toolbar>
   <v-container fluid>
     <v-row
@@ -159,5 +161,9 @@ export default {
 .like-img {
   vertical-align: middle;
   margin-right: -3px;
+}
+
+#no-background-hover::before {
+  background-color: transparent !important;
 }
 </style>

@@ -8,6 +8,7 @@ import ProductListView from "@/views/product/ProductListView.vue";
 import ProductRegisterView from "@/views/product/ProductRegisterView.vue";
 import ProductDetailView from "@/views/product/ProductDetailView.vue";
 import MyPageView from "@/views/member/MyPageView.vue";
+import CategoryView from "@/views/product/CategoryView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -51,7 +52,12 @@ const router = createRouter({
             path: "/my-page",
             name: "MyPageView",
             component: MyPageView,
-        }
+        },
+        {
+            path: "/category-list",
+            name: "CategoryView",
+            component: CategoryView,
+        },
     ],
 });
 
