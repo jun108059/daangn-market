@@ -12,12 +12,12 @@
         :key="index"
         @click="goProductHomeByCategory(item.categoryCode)">
       <v-card class="category-card">
-        <v-icon v-if="item?.categoryCode === '0'" icon="mdi-camera-gopro"></v-icon><!---->
+        <v-icon v-if="item?.categoryCode === '0'" icon="mdi-camera-gopro"></v-icon>
         <v-icon v-else-if="item?.categoryCode === '1'" icon="mdi-television-classic"></v-icon>
-        <v-icon v-else-if="item?.categoryCode === '2'" icon="mdi-home-variant"></v-icon> <!---->
+        <v-icon v-else-if="item?.categoryCode === '2'" icon="mdi-home-variant"></v-icon>
         <v-icon v-else-if="item?.categoryCode === '3'" icon="mdi-baby-buggy"></v-icon>
         <v-icon v-else-if="item?.categoryCode === '4'" icon="mdi-food-fork-drink"></v-icon>
-        <v-icon v-else-if="item?.categoryCode === '5'" icon="mdi-book"></v-icon><!---->
+        <v-icon v-else-if="item?.categoryCode === '5'" icon="mdi-book"></v-icon>
         <v-icon v-else-if="item?.categoryCode === '6'" icon="mdi-bike"></v-icon>
         <v-icon v-else-if="item?.categoryCode === '7'" icon="mdi-ring"></v-icon>
         <v-icon v-else-if="item?.categoryCode === '8'" icon="mdi-tshirt-crew"></v-icon>
@@ -67,9 +67,10 @@ export default {
             alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
           });
     };
-    const goProductHomeByCategory = () => {
+    const goProductHomeByCategory = (categoryCode) => {
       router.push({
-        name: "HomeView"
+        name: "ProductList",
+        params: {category_code: categoryCode}
       })
     };
     return {

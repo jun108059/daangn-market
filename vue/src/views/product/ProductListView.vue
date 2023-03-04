@@ -62,9 +62,12 @@ import heartImg from "@/assets/img/heart.png";
 import addButton from "@/assets/img/add-button.png";
 import reservedImg from "@/assets/img/reserved.png";
 import completedImg from "@/assets/img/completed.png";
+import {useRoute} from "vue-router";
 
 export default {
   setup() {
+    const route = useRoute();
+    const categoryCode = route.params.category_code;
     const state = reactive({
       list: [
         {
@@ -84,7 +87,7 @@ export default {
       addButton: addButton,
       reservedImg: reservedImg,
       completedImg: completedImg,
-      userName: ""
+      userName: "",
     });
     onMounted(() => {
       getProductList();
@@ -92,8 +95,12 @@ export default {
     });
     const getProductList = () => {
       const url = "/api/v1/product/list";
+      let params;
+      if (categoryCode !== "") {
+        params = {category_code: categoryCode}
+      }
       $axiosInst
-          .get(url)
+          .get(url, {params})
           .then(function (response) {
             console.log(response);
             state.list = response.data.content;
@@ -114,6 +121,7 @@ export default {
       })
     };
     return {
+      categoryCode,
       state,
       goDetailPage,
     };

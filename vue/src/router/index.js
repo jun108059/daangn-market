@@ -34,7 +34,7 @@ const router = createRouter({
             component: JoinOkView,
         },
         {
-            path: "/product/list",
+            path: "/product/list/:category_code?",
             name: "ProductList",
             component: ProductListView,
         },
