@@ -35,7 +35,7 @@ class ProductApiController(
     @GetMapping("/api/v1/product/list")
     fun getProductList(
         principal: Principal,
-        @RequestParam("category_id") categoryId: Long?,
+        @RequestParam("category_code") categoryCode: String?,
         @RequestParam("status") status: ProductStatus?,
         @RequestParam("likes") likes: Boolean?,
         @RequestParam("member_id") memberId: Long?,
@@ -44,7 +44,7 @@ class ProductApiController(
         @RequestParam("size") size: Int?,
     ): ResponseEntity<Page<ProductView>> {
         val filter = ProductFilterDto(
-            categoryId,
+            categoryCode,
             status,
             likes,
             memberId,

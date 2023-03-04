@@ -47,7 +47,7 @@ class ProductService(
             ?: throw NotFoundMemberException(ErrorCode.DEFAULT_NOT_FOUND)
         val area = areaRepository.findByIdOrNull(registerDto.areaId)
             ?: throw NotFoundAreaException(ErrorCode.AREA_NOT_FOUND)
-        val category = categoryService.getCategory(registerDto.categoryId)
+        val category = categoryService.getCategory(registerDto.categoryCode)
         val productEntity = Product.convertToEntity(registerDto, member)
         productEntity.areaId = area
         productEntity.categoryId = category
@@ -81,8 +81,8 @@ class ProductService(
             area = tempMember.areaId
         }
 
-        val category = if (filter.categoryId != null) {
-            categoryService.getCategory(filter.categoryId)
+        val category = if (filter.categoryCode != null) {
+            categoryService.getCategory(filter.categoryCode)
         } else {
             null
         }
@@ -148,7 +148,7 @@ class ProductService(
             productId = product.id!!,
             imageList = imageList,
         )
-        val category = categoryService.getCategory(updateDto.categoryId)
+        val category = categoryService.getCategory(updateDto.categoryCode)
 
         product.title = updateDto.title
         product.categoryId = category

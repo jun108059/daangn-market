@@ -5,9 +5,9 @@ import me.youngjun.daangnmarket.common.domain.ProductStatus
 data class ProductUpdateDto(
     val id: Long,
     val title: String,
-    val categoryId: Long,
+    val categoryCode: String,
     val price: Long,
     val content: String,
     val imageList: List<String>,
-    val status: ProductStatus? = ProductStatus.TRADING
+    val status: ProductStatus? = ProductStatus.TRADING,
 )
