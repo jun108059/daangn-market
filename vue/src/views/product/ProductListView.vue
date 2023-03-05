@@ -1,9 +1,12 @@
 <template>
   <v-toolbar color="orange" elevation="2">
-    <v-toolbar-title>{{ state?.userName }}님 동네</v-toolbar-title>
-    <v-spacer></v-spacer>
+    <v-icon v-if="categoryCode !== ''" icon="mdi-arrow-left" style="margin-left: 10px; margin-right: 40px"></v-icon>
+    <v-toolbar-title v-if="categoryCode === ''">{{ state?.userName }}님 동네</v-toolbar-title>
+    <v-toolbar-title v-else>
+      {{ state.categoryName }}
+    </v-toolbar-title>
+    <v-spacer v-if="categoryCode === ''"></v-spacer>
     <!--TODO("검색 페이지 연결")-->
-    <!--TODO("카테고리 조회 페이지 연결")-->
     <v-icon icon="mdi-magnify"></v-icon>&nbsp; &nbsp;
     <v-btn icon id="no-background-hover" to="/category-list">
       <v-icon icon="mdi-format-list-bulleted"></v-icon>&nbsp; &nbsp;
@@ -88,10 +91,12 @@ export default {
       reservedImg: reservedImg,
       completedImg: completedImg,
       userName: "",
+      categoryName: "",
     });
     onMounted(() => {
       getProductList();
       setUserName();
+      setCategoryName();
     });
     const getProductList = () => {
       const url = "/api/v1/product/list";
@@ -120,10 +125,28 @@ export default {
         params: {productId: id}
       })
     };
+    const setCategoryName = () => {
+      const url = "/api/v1/category/name";
+      let params;
+      if (categoryCode !== "") {
+        params = {category_code: categoryCode}
+        $axiosInst
+            .get(url, {params})
+            .then(function (response) {
+              console.log(response);
+              state.categoryName = response.data;
+            })
+            .catch(function (error) {
+              console.log(error);
+              alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
+            });
+      }
+    };
     return {
       categoryCode,
       state,
       goDetailPage,
+      setCategoryName,
     };
   }
 };
