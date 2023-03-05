@@ -2,7 +2,7 @@ package me.youngjun.daangnmarket.common.domain.enum
 
 enum class CategoryEnum(
     val code: String,
-    val detail: String
+    val detail: String,
 ) {
     DIGITAL_DEVICE("0", "디지털기기"),
     HOME_APPLIANCES("1", "생활가전"),
@@ -20,11 +20,12 @@ enum class CategoryEnum(
     BOOK_TICKET_ALBUM("13", "도서/티켓/음반"),
     PLANT("14", "식물"),
     OTHER_USED_GOODS("15", "기타 중고물품"),
-    USED_CAR("16", "중고차");
+    USED_CAR("16", "중고차"),
+    ;
 
     companion object {
         fun of(
-            code: String
+            code: String,
         ): CategoryEnum? = CategoryEnum.values().firstOrNull() {
             it.code == code
         }
