@@ -17,7 +17,7 @@
   </v-container>
   <div class="orange-line"></div>
   <v-container class="ml-4 mt-4" fluid>
-    <v-row class="mb-4">
+    <v-row class="mb-4" @click="goLikesList()">
       <div class="my-page-contents">
         <v-icon icon="mdi-heart"></v-icon>
         관심목록
@@ -67,6 +67,7 @@ import profileSettingBtnImg from "@/assets/img/profile-setting.png";
 import homeBtnImg from "@/assets/img/home-blank.png";
 import userBtnImg from "@/assets/img/user.png";
 import $axiosInst from "@/common/AxiosInst";
+import router from "@/router";
 
 export default {
   setup() {
@@ -96,8 +97,14 @@ export default {
             alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
           });
     };
+    const goLikesList = () => {
+      router.push({
+        name: "LikesProductListView",
+      })
+    }
     return {
       state,
+      goLikesList,
     };
   }
 };
