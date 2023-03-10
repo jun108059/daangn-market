@@ -12,16 +12,16 @@ import java.security.Principal
 
 @RestController
 class LikesApiController(
-    private val likesService: LikesService
+    private val likesService: LikesService,
 ) {
     @PostMapping("/api/v1/likes")
     fun addLikesCount(
         @RequestBody likesRequestDto: LikesRequestDto,
-        principal: Principal
+        principal: Principal,
     ): ResponseEntity<Long> {
         val addLikesId = likesService.addLikes(
             memberId = principal.name.toLong(),
-            productId = likesRequestDto.productId
+            productId = likesRequestDto.productId,
         )
         return ResponseEntity(addLikesId, HttpStatus.CREATED)
     }
@@ -29,11 +29,11 @@ class LikesApiController(
     @DeleteMapping("/api/v1/likes")
     fun deleteLikesCount(
         @RequestBody likesRequestDto: LikesRequestDto,
-        principal: Principal
+        principal: Principal,
     ): ResponseEntity<String> {
         val deleteLikesId = likesService.deleteLikes(
             memberId = principal.name.toLong(),
-            productId = likesRequestDto.productId
+            productId = likesRequestDto.productId,
         )
         return ResponseEntity.ok("delete Ok [likesId = $deleteLikesId]")
     }
