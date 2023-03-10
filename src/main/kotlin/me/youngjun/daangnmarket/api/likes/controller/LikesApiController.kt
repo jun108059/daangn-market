@@ -4,10 +4,7 @@ import me.youngjun.daangnmarket.api.likes.dto.LikesRequestDto
 import me.youngjun.daangnmarket.api.likes.service.LikesService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
 @RestController
@@ -28,12 +25,12 @@ class LikesApiController(
 
     @DeleteMapping("/api/v1/likes")
     fun deleteLikesCount(
-        @RequestBody likesRequestDto: LikesRequestDto,
+        @RequestParam("product_id") productId: Long,
         principal: Principal,
     ): ResponseEntity<String> {
         val deleteLikesId = likesService.deleteLikes(
             memberId = principal.name.toLong(),
-            productId = likesRequestDto.productId,
+            productId = productId,
         )
         return ResponseEntity.ok("delete Ok [likesId = $deleteLikesId]")
     }
