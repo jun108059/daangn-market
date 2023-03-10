@@ -64,6 +64,7 @@
           class="mx-auto"
           width="40"
           src="@/assets/img/is-like.png"
+          @click="cancelLikesApi()"
       ></v-img>
     </div>
     <div class="like-button" v-if="state.productDetail.isLikes === false">
@@ -151,10 +152,24 @@ export default {
             alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
           });
     };
+    const cancelLikesApi = () => {
+      const url = "api/v1/likes"
+      const params = {product_id: productId}
+      $axiosInst
+          .delete(url, {params})
+          .then(function () {
+            state.productDetail.isLikes = false;
+          })
+          .catch(function (error) {
+            console.log(error);
+            alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
+          });
+    };
     return {
       productId,
       state,
       likesApi,
+      cancelLikesApi,
     };
   }
 };
