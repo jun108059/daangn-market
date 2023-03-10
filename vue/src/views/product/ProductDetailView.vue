@@ -60,10 +60,20 @@
   </v-row>
   <v-row class="my-footer">
     <div class="like-button" v-if="state.productDetail.isLikes === true">
-      <v-img class="mx-auto" width="40" src="@/assets/img/is-like.png"></v-img>
+      <v-img
+          class="mx-auto"
+          width="40"
+          src="@/assets/img/is-like.png"
+      ></v-img>
     </div>
     <div class="like-button" v-if="state.productDetail.isLikes === false">
-      <v-img class="mx-auto" width="40" src="@/assets/img/not-like.png"></v-img>
+      <v-img
+          class="mx-auto"
+          width="40"
+          src="@/assets/img/not-like.png"
+          @click="likesApi()"
+      ></v-img>
+
     </div>
     <div class="bold-text" style="width: 45%; float:left; text-align: left">
       {{ $money.currency(state.productDetail.price) }} 원
@@ -128,15 +138,28 @@ export default {
             alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
           });
     };
+    const likesApi = () => {
+      const url = "api/v1/likes"
+      const likesRequestDto = {productId: productId}
+      $axiosInst
+          .post(url, likesRequestDto)
+          .then(function () {
+            state.productDetail.isLikes = true;
+          })
+          .catch(function (error) {
+            console.log(error);
+            alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
+          });
+    };
     return {
       productId,
       state,
+      likesApi,
     };
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .seller-info {
   position: relative;
