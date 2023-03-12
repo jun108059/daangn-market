@@ -63,7 +63,6 @@ import $axiosInst from "@/common/AxiosInst"
 import router from "@/router";
 import chatImg from "@/assets/img/chat.png";
 import heartImg from "@/assets/img/heart.png";
-import addButton from "@/assets/img/add-button.png";
 import reservedImg from "@/assets/img/reserved.png";
 import completedImg from "@/assets/img/completed.png";
 import $store from "@/store/store";
@@ -87,11 +86,8 @@ export default {
       ],
       chatImg: chatImg,
       heartImg: heartImg,
-      addButton: addButton,
       reservedImg: reservedImg,
       completedImg: completedImg,
-      userName: "",
-      categoryName: "",
       tab: null,
     });
     onMounted(() => {
@@ -208,7 +204,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .product-row {
   position: relative;
