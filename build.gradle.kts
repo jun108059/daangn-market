@@ -46,6 +46,7 @@ dependencies {
 
     // querydsl 관련 의존성
     implementation("com.querydsl:querydsl-jpa:5.0.0")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.6.0")
     kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 
     // mysql
