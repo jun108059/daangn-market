@@ -5,6 +5,7 @@ import actions from "@/store/actions";
 
 const store = createStore({
     state: { // 변수 집합
+        userId: localStorage.getItem('userId'),
         userName: localStorage.getItem('userName'),
         token: localStorage.getItem('token'),
     },
