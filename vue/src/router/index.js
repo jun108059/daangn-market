@@ -10,6 +10,7 @@ import ProductDetailView from "@/views/product/ProductDetailView.vue";
 import MyPageView from "@/views/member/MyPageView.vue";
 import CategoryView from "@/views/product/CategoryView.vue";
 import LikesProductListView from "@/views/product/LikesProductListView.vue";
+import MyProductListView from "@/views/product/MyProductListView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -63,6 +64,11 @@ const router = createRouter({
             path: "/my-likes",
             name: "LikesProductListView",
             component: LikesProductListView,
+        },
+        {
+            path: "/my-products",
+            name: "MyProductListView",
+            component: MyProductListView,
         },
     ],
 });

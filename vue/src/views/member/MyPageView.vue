@@ -23,16 +23,10 @@
         관심목록
       </div>
     </v-row>
-    <v-row class="mb-4">
+    <v-row class="mb-4" @click="goMyProductList()">
       <div class="my-page-contents">
         <v-icon icon="mdi-clipboard-text"></v-icon>
         판매내역
-      </div>
-    </v-row>
-    <v-row class="mb-4">
-      <div class="my-page-contents">
-        <v-icon icon="mdi-shopping"></v-icon>
-        구매내역
       </div>
     </v-row>
     <v-row class="mb-4">
@@ -101,10 +95,16 @@ export default {
       router.push({
         name: "LikesProductListView",
       })
-    }
+    };
+    const goMyProductList = () => {
+      router.push({
+        name: "MyProductListView",
+      })
+    };
     return {
       state,
       goLikesList,
+      goMyProductList,
     };
   }
 };
