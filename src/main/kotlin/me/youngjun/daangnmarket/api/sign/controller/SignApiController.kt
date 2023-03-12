@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 class SignApiController(
-    private val signService: SignService
+    private val signService: SignService,
 ) {
 
     companion object {
@@ -19,11 +19,11 @@ class SignApiController(
 
     @PostMapping("/api/v1/login")
     fun signIn(
-        @RequestBody loginForm: LoginRequestDto
+        @RequestBody loginForm: LoginRequestDto,
     ): ResponseEntity<LoginResponseDto> {
         log.info { loginForm.toString() }
-        val token = signService.loginByEmail(loginForm)
-        log.info { "Login completed : [${loginForm.email}], $token" }
-        return ResponseEntity(token, HttpStatus.OK)
+        val loginResponseDto = signService.loginByEmail(loginForm)
+        log.info { "Login completed : [${loginForm.email}], $loginResponseDto" }
+        return ResponseEntity(loginResponseDto, HttpStatus.OK)
     }
 }

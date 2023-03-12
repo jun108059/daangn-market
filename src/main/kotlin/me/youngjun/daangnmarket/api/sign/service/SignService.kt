@@ -14,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional
 class SignService(
     private val authenticationManager: AuthenticationManager,
     private val jwtTokenProvider: JwtTokenProvider,
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
 ) {
     @Transactional(readOnly = true)
     fun loginByEmail(
-        dto: LoginRequestDto
+        dto: LoginRequestDto,
     ): LoginResponseDto {
         // email, password 기반 AuthenticationToken 생성
         val authenticationToken = UsernamePasswordAuthenticationToken(dto.email, dto.password)
@@ -29,10 +29,11 @@ class SignService(
         val member = memberRepository.findByEmail(dto.email)
             ?: throw UsernameNotFoundException("[$dto.email] -> 데이터베이스에서 찾을 수 없습니다.")
         return LoginResponseDto(
+            id = member.id,
             name = member.name,
             grantType = tokenDto.grantType,
             accessToken = tokenDto.accessToken,
-            accessTokenExpiresIn = tokenDto.accessTokenExpiresIn
+            accessTokenExpiresIn = tokenDto.accessTokenExpiresIn,
         )
     }
 }
