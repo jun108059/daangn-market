@@ -26,7 +26,7 @@ internal class SignApiControllerTest : DescribeSpec({
         val resultAction = mockMvc.perform(
             MockMvcRequestBuilders.post("/api/v1/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(loginDtoJson)
+                .content(loginDtoJson),
         )
 
         context("ID/PW가 일치하면") {
@@ -45,7 +45,7 @@ internal class SignApiControllerTest : DescribeSpec({
                 resultAction
                     .andExpect(
                         MockMvcResultMatchers
-                            .content().contentType(MediaType.APPLICATION_JSON)
+                            .content().contentType(MediaType.APPLICATION_JSON),
                     )
             }
         }
@@ -57,10 +57,11 @@ internal class SignApiControllerTest : DescribeSpec({
         private val loginDto = LoginRequestDto("youngjun108059@gmail.com", "1234")
         val loginDtoJson = objectMapper.writeValueAsString(loginDto)!!
         val loginResponseDto = LoginResponseDto(
+            id = 1,
             name = "YoungJun",
             grantType = "Bearer",
             accessToken = "test123token",
-            accessTokenExpiresIn = 1673557504848
+            accessTokenExpiresIn = 1673557504848,
         )
     }
 }
