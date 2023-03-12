@@ -158,4 +158,14 @@ class ProductService(
 
         productRepository.save(product)
     }
+
+    @Transactional
+    fun updateProductStatus(
+        updateDto: ProductStatusUpdateDto,
+    ) {
+        val product = productRepository.findByIdOrNull(updateDto.id)
+            ?: throw NotFoundException(ErrorCode.PRODUCT_NOT_FOUND)
+        product.status = updateDto.status
+        productRepository.save(product)
+    }
 }

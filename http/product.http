@@ -136,3 +136,17 @@ Authorization: Bearer {{TOKEN}}
 ### 상품리스트 조회 (Pagination)
 GET http://localhost:8081/api/v1/product/list?page=1&size=2
 Authorization: Bearer {{TOKEN}}
+
+### 상품 상태 수정 API
+PUT http://localhost:8081/api/v1/product/status
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+  "id": 2,
+  "status": "RESERVED"
+}
+
+### 상품리스트 조회 (내 판매상품 조회 + 거래상태)
+GET http://localhost:8081/api/v1/product/list?status=TRADING
+Authorization: Bearer {{TOKEN}}

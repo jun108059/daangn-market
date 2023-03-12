@@ -103,7 +103,11 @@ class ProductRepositorySupport(
         return if (status == null) {
             null
         } else {
-            product.status.eq(status)
+            if (status == ProductStatus.COMPLETED) {
+                product.status.eq(status)
+            } else {
+                product.status.ne(ProductStatus.COMPLETED)
+            }
         }
     }
 

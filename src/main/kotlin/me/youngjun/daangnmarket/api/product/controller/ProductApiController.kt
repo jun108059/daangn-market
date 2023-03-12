@@ -87,4 +87,12 @@ class ProductApiController(
         productService.updateProduct(productUpdateDto)
         return ResponseEntity.ok("productId [${productUpdateDto.id}] update Ok")
     }
+
+    @PutMapping("/api/v1/product/status")
+    fun updateProductStatus(
+        @RequestBody productStatusDto: ProductStatusUpdateDto,
+    ): ResponseEntity<String> {
+        productService.updateProductStatus(productStatusDto)
+        return ResponseEntity.ok("productId [${productStatusDto.id}] status update Ok")
+    }
 }
