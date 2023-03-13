@@ -26,8 +26,8 @@ body {
 
 .my-footer {
   background-color: lightgray;
-  position: absolute;
-  bottom: 12px;
+  position: fixed;
+  bottom: 0;
   right: 20px;
   width: 100%;
   padding: 20px 30px 20px 30px;

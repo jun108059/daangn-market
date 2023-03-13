@@ -152,7 +152,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .product-row {
   position: relative;
@@ -169,7 +168,6 @@ export default {
 }
 
 .homeButton {
-  /*border-right: solid 3px #2c3e50;*/
   margin-left: 1px;
 }
 

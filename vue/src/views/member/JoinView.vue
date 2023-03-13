@@ -86,7 +86,7 @@ export default {
       getAreaList();
     });
     const getAreaList = () => {
-      const url = "http://localhost:8081/api/v1/area/list";
+      const url = "/api/v1/area/list";
       axios
           .get(url)
           .then(function (response) {
@@ -141,7 +141,7 @@ export default {
       if (this.validationCheck() === false) {
         return false;
       }
-      const url = "http://localhost:8081/api/v1/member";
+      const url = "/api/v1/member";
       const memberJoinForm = {
         email: this.email,
         password: this.password,
