@@ -24,9 +24,14 @@ class MemberApiController(
 
     @GetMapping("/api/v1/member")
     fun getMember(
+        @RequestParam("member_id") memberId: Long?,
         principal: Principal,
     ): ResponseEntity<MemberInfoResponseDto> {
-        val memberInfo = memberService.getMemberInfo(principal.name.toLong())
+        val memberInfo = if (memberId != null) {
+            memberService.getMemberInfo(memberId)
+        } else {
+            memberService.getMemberInfo(principal.name.toLong())
+        }
         return ResponseEntity(memberInfo, HttpStatus.OK)
     }
 
