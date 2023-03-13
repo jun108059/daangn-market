@@ -7,18 +7,13 @@
     <!--TODO("내 게시글일 때 수정/삭제 가능 추가")-->
   </v-toolbar>
   <v-container fluid>
-    <div class="image-slider">
-      <v-carousel height="250px">
-        <v-carousel-item
-            v-for="(image, index) in state.productDetail.imageUrls"
-            :key="index"
-            eager
-            reverse-transition="fade-transition"
-            transition="fade-transition">
-          <v-img :src="image" height="100%" eager/>
-        </v-carousel-item>
-      </v-carousel>
-    </div>
+    <v-carousel height="250px">
+      <v-carousel-item
+          v-for="(image, index) in state.productDetail.imageUrls"
+          :key="index">
+        <v-img :src="image" height="100%"/>
+      </v-carousel-item>
+    </v-carousel>
     <v-row class="mt-2 mb-2 seller-info">
       <div style="float: left; width: 25%">
         <img :src="state.productDetail.sellerImageUrl" alt="판매자-프로필-사진" width="70" height="70"/>
@@ -51,13 +46,34 @@
       </div>
     </v-row>
   </v-container>
-  <!--TODO("판매상품 추가 + 모두보기 landing")-->
-  <v-row class="same-seller-info">
+  <v-row v-if="state.sellersProducts.length !== 1" class="same-seller-info">
     <div style="float: left;">
-      {{ state.productDetail.nickname }}님의 판매상품
+      <span style="color: #ff931e">{{ state.productDetail.nickname }}</span>님의 판매상품
     </div>
-    <v-icon icon="mdi-arrow-right" style="margin-right: 30px; float: right;"></v-icon>
+    <v-icon
+        icon="mdi-arrow-right"
+        style="margin-right: 30px; float: right;"
+        @click="goUserProductListView()"
+    ></v-icon>
   </v-row>
+  <v-container v-if="state.sellersProducts.length !== 1" class="mb-16">
+    <v-row
+        class="same-seller-products"
+        v-for="product in state.sellersProducts"
+        :key="product.id"
+        @click="goDetailPage(product.id)"
+        style="float: left; width: 55%; margin-top: 10px;"
+    >
+      <v-col v-if="productId !== product.id.toString()">
+        <div>
+          <img :src="product.imgUrl" alt="이미지" width="125" height="100"/>
+        </div>
+        <div class="more-products">{{ product.title }}</div>
+        <div class="more-products">{{ product.areaName }} • {{ $time.elapsedTime(product.createdDateTime) }}</div>
+        <div class="more-products">{{ $money.currency(product.price) }} 원</div>
+      </v-col>
+    </v-row>
+  </v-container>
   <v-row class="my-footer">
     <div class="like-button" v-if="state.productDetail.isLikes === true">
       <v-img
@@ -95,6 +111,7 @@ import $axiosInst from "@/common/AxiosInst"
 import reservedImg from "@/assets/img/reserved.png";
 import completedImg from "@/assets/img/completed.png";
 import {useRoute} from "vue-router";
+import router from "@/router";
 
 export default {
   setup() {
@@ -108,6 +125,7 @@ export default {
             price: 0,
             likesCount: 0,
             chatCount: 0,
+            memberId: 0,
             status: "",
             createdDateTime: "",
             imageUrls: [],
@@ -120,19 +138,45 @@ export default {
           },
       reservedImg: reservedImg,
       completedImg: completedImg,
-      userName: ""
+      sellersProducts: [
+        {
+          id: 0,
+          areaName: "",
+          title: "",
+          price: 0,
+          imgUrl: "",
+        },
+      ],
     });
-    onMounted(() => {
-      getProduct();
+    onMounted(async () => {
+      await getProduct();
+      await getSellerProducts();
     });
-    const getProduct = () => {
+    const getProduct = async () => {
       const url = "/api/v1/product";
       const params = {product_id: productId}
-      $axiosInst
+      await $axiosInst
           .get(url, {params})
           .then(function (response) {
             console.log(response);
             state.productDetail = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+            alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
+          });
+    };
+    const getSellerProducts = async () => {
+      const url = "/api/v1/product/list";
+      const params = {
+        member_id: state.productDetail.memberId,
+        status: "TRADING",
+      }
+      await $axiosInst
+          .get(url, {params})
+          .then(function (response) {
+            console.log(response);
+            state.sellersProducts = response.data.content;
           })
           .catch(function (error) {
             console.log(error);
@@ -152,9 +196,15 @@ export default {
             alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
           });
     };
+    const goDetailPage = (id) => {
+      router.push({
+        name: "ProductDetailView",
+        params: {productId: id}
+      })
+    };
     const cancelLikesApi = () => {
-      const url = "api/v1/likes"
-      const params = {product_id: productId}
+      const url = "api/v1/likes";
+      const params = {product_id: productId};
       $axiosInst
           .delete(url, {params})
           .then(function () {
@@ -165,11 +215,21 @@ export default {
             alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
           });
     };
+    const goUserProductListView = () => {
+      router.push({
+        name: "UserProductListView",
+        params: {
+          memberId: state.productDetail.memberId
+        }
+      })
+    };
     return {
       productId,
       state,
       likesApi,
       cancelLikesApi,
+      goDetailPage,
+      goUserProductListView,
     };
   }
 };
@@ -193,6 +253,12 @@ export default {
   padding-right: 15px;
 }
 
+.more-products {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .location {
   font-size: 14px;
   color: gray;
@@ -206,6 +272,7 @@ export default {
 }
 
 .product-title {
+  margin-left: 5px;
   font-size: 20px;
   float: left;
 }
@@ -224,6 +291,12 @@ export default {
   display: inline;
   margin-left: 15px;
   margin-top: 20px;
+}
+
+.same-seller-products {
+  display: inline;
+  margin-top: 10px;
+  font-size: 12px;
 }
 
 .state-img {
