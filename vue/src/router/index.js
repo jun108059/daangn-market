@@ -11,6 +11,7 @@ import MyPageView from "@/views/member/MyPageView.vue";
 import CategoryView from "@/views/product/CategoryView.vue";
 import LikesProductListView from "@/views/product/LikesProductListView.vue";
 import MyProductListView from "@/views/product/MyProductListView.vue";
+import UserProductListView from "@/views/product/UserProductListView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -69,6 +70,11 @@ const router = createRouter({
             path: "/my-products",
             name: "MyProductListView",
             component: MyProductListView,
+        },
+        {
+            path: "/member-products/:memberId",
+            name: "UserProductListView",
+            component: UserProductListView,
         },
     ],
 });
