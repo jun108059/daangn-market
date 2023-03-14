@@ -102,9 +102,7 @@ export default {
       $axiosInst
           .get(url, {params})
           .then(function (response) {
-            console.log(response);
             state.list = response.data.content;
-            console.log(state.list);
           })
           .catch(function (error) {
             console.log(error);

@@ -1,11 +1,12 @@
 <template>
   <v-toolbar color="orange" elevation="2">
     <v-icon v-if="categoryCode !== ''" icon="mdi-arrow-left" style="margin-left: 10px; margin-right: 40px"></v-icon>
-    <v-toolbar-title v-if="categoryCode === ''">{{ state?.userName }}님 동네</v-toolbar-title>
+    <v-toolbar-title v-if="categoryCode === ''" class="home-toolbar-title">
+      {{ state?.userName }}님 동네
+    </v-toolbar-title>
     <v-toolbar-title v-else>
       {{ state.categoryName }}
     </v-toolbar-title>
-    <v-spacer v-if="categoryCode === ''"></v-spacer>
     <!--TODO("검색 페이지 연결")-->
     <v-icon icon="mdi-magnify"></v-icon>&nbsp; &nbsp;
     <v-btn icon id="no-background-hover" to="/category-list">
@@ -107,9 +108,7 @@ export default {
       $axiosInst
           .get(url, {params})
           .then(function (response) {
-            console.log(response);
             state.list = response.data.content;
-            console.log(state.list);
           })
           .catch(function (error) {
             console.log(error);
@@ -133,7 +132,6 @@ export default {
         $axiosInst
             .get(url, {params})
             .then(function (response) {
-              console.log(response);
               state.categoryName = response.data;
             })
             .catch(function (error) {
@@ -194,5 +192,11 @@ export default {
 
 #no-background-hover::before {
   background-color: transparent !important;
+}
+
+.home-toolbar-title {
+  font-size: 19px;
+  white-space: nowrap;
+  text-align: left;
 }
 </style>

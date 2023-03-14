@@ -59,7 +59,6 @@ export default {
       $axiosInst
           .get(url)
           .then(function (response) {
-            console.log(response);
             state.categoryList = response.data;
           })
           .catch(function (error) {
@@ -81,7 +80,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .category-card {
   display: inline-block;

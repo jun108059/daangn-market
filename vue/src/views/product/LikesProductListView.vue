@@ -77,9 +77,7 @@ export default {
       $axiosInst
           .get(url, {params})
           .then(function (response) {
-            console.log(response);
             state.list = response.data.content;
-            console.log(state.list);
           })
           .catch(function (error) {
             console.log(error);
@@ -100,7 +98,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .product-row {
   position: relative;

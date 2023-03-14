@@ -89,8 +89,6 @@ export default {
           .then(function (response) {
             console.log(response);
             that.$store.dispatch("login", response.data);
-            console.log("store 정보 : " + that.$store.getters.getUserName);
-            console.log("저장된 token 정보 : " + that.$store.getters.getToken);
             router.push("/product/list");
           })
           .catch(function (error) {

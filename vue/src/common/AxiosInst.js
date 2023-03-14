@@ -13,7 +13,6 @@ AxiosInst.interceptors.request.use(
         }
         config.headers["Access-Control-Allow-Origin"] = "*";
         config.headers["Access-Control-Allow-Credentials"] = true;
-        console.log("인터셉터 : ", config.headers)
         return config;
     }
 )
