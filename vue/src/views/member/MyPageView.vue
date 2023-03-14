@@ -83,7 +83,6 @@ export default {
       $axiosInst
           .get(url)
           .then(function (response) {
-            console.log(response);
             state.memberInfo = response.data;
           })
           .catch(function (error) {
