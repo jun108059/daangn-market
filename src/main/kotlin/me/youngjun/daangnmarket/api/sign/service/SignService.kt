@@ -30,7 +30,7 @@ class SignService(
             ?: throw UsernameNotFoundException("[$dto.email] -> 데이터베이스에서 찾을 수 없습니다.")
         return LoginResponseDto(
             id = member.id,
-            name = member.name,
+            name = member.nickname,
             grantType = tokenDto.grantType,
             accessToken = tokenDto.accessToken,
             accessTokenExpiresIn = tokenDto.accessTokenExpiresIn,
