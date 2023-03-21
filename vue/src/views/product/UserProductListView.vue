@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="orange" elevation="2">
-    <v-icon icon="mdi-arrow-left" class="toolbar-icon"></v-icon>
+    <v-icon icon="mdi-arrow-left" class="toolbar-icon" @click="goBack"></v-icon>
     <v-toolbar-title class="user-product-title">{{ state.member.nickname }}님의 판매상품</v-toolbar-title>
     <div>
       <v-img :src="state.member.imagePath" class="toolbar-img ml-auto"/>
@@ -132,11 +132,15 @@ export default {
         params: {productId: id}
       })
     };
+    const goBack = () => {
+      router.back();
+    };
     return {
       state,
       memberId,
       goDetailPage,
       getProductList,
+      goBack,
     };
   }
 };

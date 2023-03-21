@@ -1,7 +1,9 @@
 <template>
   <v-toolbar color="orange" elevation="2" opacity="100">
-    <!--TODO("뒤로가기 기능")-->
-    <v-icon icon="mdi-arrow-left" style="margin-left: 10px; margin-right: 10px"></v-icon>
+    <v-icon
+        icon="mdi-arrow-left"
+        style="margin-left: 10px; margin-right: 10px"
+        @click="goBack"></v-icon>
     <!--TODO("내 게시글일 때 수정/삭제 가능 추가")-->
   </v-toolbar>
   <v-container fluid>
@@ -222,6 +224,9 @@ export default {
         }
       })
     };
+    const goBack = () => {
+      router.back();
+    };
     return {
       productId,
       state,
@@ -229,6 +234,7 @@ export default {
       cancelLikesApi,
       goDetailPage,
       goUserProductListView,
+      goBack,
     };
   }
 };

@@ -1,6 +1,9 @@
 <template>
   <v-toolbar color="orange" elevation="2">
-    <v-icon icon="mdi-arrow-left" style="margin-left: 10px; margin-right: -70px"></v-icon>
+    <v-icon
+        icon="mdi-arrow-left"
+        style="margin-left: 10px; margin-right: -70px"
+        @click="goBack"></v-icon>
     <v-toolbar-title>관심목록</v-toolbar-title>
     <v-spacer></v-spacer>
   </v-toolbar>
@@ -90,9 +93,13 @@ export default {
         params: {productId: id}
       })
     };
+    const goBack = () => {
+      router.back();
+    };
     return {
       state,
       goDetailPage,
+      goBack,
     };
   }
 };
