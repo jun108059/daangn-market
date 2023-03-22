@@ -1,7 +1,9 @@
 <template>
   <v-toolbar color="orange" elevation="2" opacity="100">
-    <!--TODO("뒤로가기 기능")-->
-    <v-icon icon="mdi-arrow-left" style="margin-left: 10px;"></v-icon>
+    <v-icon
+        icon="mdi-arrow-left"
+        style="margin-left: 10px;"
+        @click="goBack"></v-icon>
     <v-toolbar-title class="text-left">카테고리</v-toolbar-title>
   </v-toolbar>
   <v-container fluid>
@@ -72,9 +74,13 @@ export default {
         params: {category_code: categoryCode}
       })
     };
+    const goBack = () => {
+      router.back();
+    };
     return {
       state,
       goProductHomeByCategory,
+      goBack,
     };
   }
 };

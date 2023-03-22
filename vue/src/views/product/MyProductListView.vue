@@ -1,6 +1,9 @@
 <template>
   <v-toolbar color="orange" elevation="2">
-    <v-icon icon="mdi-arrow-left" style="margin-left: 10px; margin-right: -40px"></v-icon>
+    <v-icon
+        icon="mdi-arrow-left"
+        style="margin-left: 10px; margin-right: -40px"
+        @click="goBack"></v-icon>
     <v-toolbar-title>나의 판매내역</v-toolbar-title>
     <v-spacer></v-spacer>
   </v-toolbar>
@@ -190,6 +193,9 @@ export default {
             alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
           });
     };
+    const goBack = () => {
+      router.back();
+    };
     return {
       state,
       goDetailPage,
@@ -197,6 +203,7 @@ export default {
       changeStatusReserved,
       changeStatusCompleted,
       changeStatusTrading,
+      goBack,
     };
   }
 };
