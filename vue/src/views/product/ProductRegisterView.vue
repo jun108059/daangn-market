@@ -1,9 +1,9 @@
 <template>
   <v-toolbar color="orange" elevation="2">
     <v-icon
-      style="padding-left: 20px"
-      icon="mdi-arrow-u-left-top-bold"></v-icon>
-    <v-toolbar-title>중고거래 글쓰기</v-toolbar-title>
+        style="padding-left: 20px; margin-right: -10px"
+        icon="mdi-arrow-u-left-top-bold"></v-icon>
+    <v-toolbar-title>내 물건 팔기</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn><h3>완료</h3></v-btn>
   </v-toolbar>
@@ -26,25 +26,25 @@
         </v-col>
         <v-col cols="12">
           <v-text-field
-            v-model="state.title"
-            type="text"
-            placeholder="제목"
-            required />
+              v-model="state.title"
+              type="text"
+              placeholder="제목"
+              required/>
           <v-select
-            v-model="state.defaultSelected"
-            label="카테고리"
-            :items="state.categoryList"
-            item-title="categoryName"
-            item-value="categoryCode">
+              v-model="state.defaultSelected"
+              label="카테고리"
+              :items="state.categoryList"
+              item-title="categoryName"
+              item-value="categoryCode">
           </v-select>
           <v-text-field
-            v-model="state.price"
-            type="number"
-            placeholder="가격(원)" />
+              v-model="state.price"
+              type="number"
+              placeholder="가격(원)"/>
           <v-textarea
-            v-model="state.content"
-            type="text"
-            placeholder="게시글 내용을 작성해주세요." />
+              v-model="state.content"
+              type="text"
+              placeholder="게시글 내용을 작성해주세요."/>
           가짜 품목 및 판매금지품목은 게시가 제한됩니다.
         </v-col>
       </v-row>
@@ -53,85 +53,77 @@
 </template>
 
 <script>
-  import axios from "axios";
-  import { onMounted, reactive } from "vue";
-  import ImageUploader from "@/components/ImageUploader.vue";
+import $axiosInst from "@/common/AxiosInst"
+import {onMounted, reactive} from "vue";
+import ImageUploader from "@/components/ImageUploader.vue";
 
-  export default {
-    setup() {
-      const state = reactive({
-        title: "",
-        price: "",
-        content: "",
-        defaultSelected: {
-          categoryCode: "1",
-          categoryName: "디지털기기",
+export default {
+  setup() {
+    const state = reactive({
+      title: "",
+      price: "",
+      content: "",
+      defaultSelected: {
+        categoryCode: "0",
+        categoryName: "디지털기기",
+      },
+      categoryList: [
+        {
+          categoryCode: "",
+          categoryName: "",
         },
-        categoryList: [
-          {
-            categoryCode: "",
-            categoryName: "",
-          },
-        ],
-      });
-      onMounted(() => {
-        getCategory();
-      });
-      const getCategory = () => {
-        const url = "http://localhost:8081/api/v1/category/list";
-        axios
+      ],
+    });
+    onMounted(() => {
+      getCategory();
+    });
+    const getCategory = () => {
+      const url = "api/v1/category/list";
+      $axiosInst
           .get(url)
           .then(function (response) {
             console.log(response);
-            state.categoryList = response.data.data;
+            state.categoryList = response.data;
           })
           .catch(function (error) {
             console.log(error);
             alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
           });
+    };
+    const submitForm = () => {
+      const url = "/api/v1/product";
+      const productDto = {
+        title: state.title,
+        price: state.price,
+        categoryCode: state.defaultSelected.categoryCode,
+        content: state.content,
       };
-      const submitForm = () => {
-        const url = "http://localhost:8081/api/v1/product/register";
-        axios
-          .post(url)
+      $axiosInst
+          .post(url, productDto)
           .then(function (response) {
             console.log(response);
-            state.categoryList = response.data.data;
           })
           .catch(function (error) {
             console.log(error);
             alert("서버 에러입니다. \n잠시 후 다시 시도해주세요.");
           });
-      };
-      return {
-        state,
-        submitForm,
-      };
-    },
-    components: {
-      ImageUploader,
-    },
-  };
+    };
+    return {
+      state,
+      submitForm,
+    };
+  },
+  components: {
+    ImageUploader,
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .product-row {
-    position: relative;
-    border-bottom: solid 1px #ff931e;
-    padding: 10px 0;
-  }
 
-  .addButton {
-    position: absolute;
-    bottom: 40px;
-    right: 20px;
-    width: 30%;
-    height: 80px;
-  }
-
-  label.images-upload {
-    height: 90px !important;
-    width: 90px !important;
-  }
+label.images-upload {
+  height: 90px !important;
+  width: 90px !important;
+}
 </style>
