@@ -10,13 +10,13 @@ import org.springframework.web.multipart.MultipartFile
 @Suppress("SpringJavaInjectionPointsAutowiringInspection")
 @Service
 class AmazonS3ResourceStorage(
-    val amazonS3Client: AmazonS3Client
+    val amazonS3Client: AmazonS3Client,
 ) {
     @Value("\${cloud.aws.s3.bucket}")
     private val bucket: String? = null
 
     fun store(
-        multipartFile: MultipartFile
+        multipartFile: MultipartFile,
     ): String {
         val metadata = ObjectMetadata()
         metadata.contentType = multipartFile.contentType
@@ -26,8 +26,8 @@ class AmazonS3ResourceStorage(
                 bucket,
                 multipartFile.name,
                 multipartFile.inputStream,
-                metadata
-            )
+                metadata,
+            ),
         )
         return amazonS3Client.getUrl(bucket, multipartFile.name).toString()
     }

@@ -9,11 +9,11 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 class UploadApiController(
-    private val uploadService: UploadService
+    private val uploadService: UploadService,
 ) {
     @PostMapping("api/v1/image")
     fun uploadImage(
-        @RequestPart("image") multipartFile: MultipartFile
+        @RequestPart("image") multipartFile: MultipartFile,
     ): ResponseEntity<Any> {
         return ResponseEntity.ok(uploadService.save(multipartFile))
     }

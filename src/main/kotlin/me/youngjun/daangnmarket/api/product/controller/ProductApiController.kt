@@ -26,7 +26,8 @@ class ProductApiController(
         @RequestBody productRegisterDto: ProductRegisterDto,
         principal: Principal,
     ): ResponseEntity<Any> {
-        log.debug { "product Register [ user : $principal ]" }
+        log.info { "product Register [ user : $principal ]" }
+        log.info { "product Register [ dto : $productRegisterDto ]" }
         val memberId = principal.name.toLong()
         val product = productService.register(productRegisterDto, memberId)
         return ResponseEntity(product.id, HttpStatus.CREATED)

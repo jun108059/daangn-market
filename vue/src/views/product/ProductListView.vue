@@ -13,7 +13,7 @@
       <v-icon icon="mdi-format-list-bulleted"></v-icon>&nbsp; &nbsp;
     </v-btn>
   </v-toolbar>
-  <v-container fluid>
+  <v-container fluid class="content-wrapper">
     <v-row
         class="mt-2 mb-2 product-row"
         v-for="(item, index) in state.list"
@@ -158,7 +158,7 @@ export default {
 }
 
 .addButton {
-  position: absolute;
+  position: fixed;
   bottom: 100px;
   right: 0;
   width: 30%;
@@ -198,5 +198,9 @@ export default {
   font-size: 19px;
   white-space: nowrap;
   text-align: left;
+}
+
+.content-wrapper {
+  margin-bottom: 80px;
 }
 </style>

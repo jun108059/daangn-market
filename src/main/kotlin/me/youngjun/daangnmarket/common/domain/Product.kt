@@ -13,7 +13,7 @@ class Product(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id", referencedColumnName = "id")
-    var areaId: Area = Area.of("0001"),
+    var areaId: Area = Area.of("1"),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "category_id", referencedColumnName = "id")
@@ -30,7 +30,7 @@ class Product(
     var content: String,
 
     @Column
-    var price: Long
+    var price: Long,
 ) : BaseEntity() {
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
@@ -48,13 +48,13 @@ class Product(
     companion object {
         fun convertToEntity(
             productRegisterDto: ProductRegisterDto,
-            member: Member
+            member: Member,
         ): Product {
             return Product(
                 member = member,
                 title = productRegisterDto.title,
                 content = productRegisterDto.content,
-                price = productRegisterDto.price
+                price = productRegisterDto.price,
             )
         }
     }

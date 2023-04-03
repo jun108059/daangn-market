@@ -12,7 +12,7 @@ enum class AreaEnum(
     companion object {
         fun of(
             areaCode: String,
-        ): AreaEnum? = values().firstOrNull() {
+        ): AreaEnum? = values().firstOrNull {
             it.areaCode == areaCode
         }
 
