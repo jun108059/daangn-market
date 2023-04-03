@@ -32,7 +32,7 @@ class Member(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id", referencedColumnName = "id")
-    var areaId: Area = Area.of("0001")
+    var areaId: Area = Area.of("1"),
 
 ) : BaseEntity() {
 
@@ -42,7 +42,7 @@ class Member(
 
     companion object {
         fun convertToEntity(
-            form: MemberJoinRequestDto
+            form: MemberJoinRequestDto,
         ): Member {
             return Member(
                 email = form.email,
@@ -50,7 +50,7 @@ class Member(
                 name = form.name,
                 phone = form.phone,
                 nickname = form.nickname,
-                role = form.role
+                role = form.role,
             )
         }
     }

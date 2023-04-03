@@ -14,7 +14,7 @@ class Area(
     val code: String? = AreaEnum.PANGYO.areaCode,
 
     @Column
-    val name: String? = AreaEnum.PANGYO.areaName
+    val name: String? = AreaEnum.PANGYO.areaName,
 
 ) : BaseEntity() {
 
@@ -28,11 +28,11 @@ class Area(
 
     companion object {
         fun of(
-            areaCode: String
+            areaCode: String,
         ): Area {
             return Area(
                 code = areaCode,
-                name = AreaEnum.of(areaCode)!!.areaName
+                name = AreaEnum.of(areaCode)!!.areaName,
             )
         }
     }
