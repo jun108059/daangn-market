@@ -34,5 +34,6 @@ body {
   border-top: solid 3px #2c3e50;
   border-bottom: solid 3px #2c3e50;
   left: 12px;
+  box-sizing: border-box;
 }
 </style>
